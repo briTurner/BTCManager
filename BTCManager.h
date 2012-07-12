@@ -9,10 +9,16 @@
 #import <Foundation/Foundation.h>
 #import <GameKit/GameKit.h>
 
-@protocol BTCManagerDelegate <NSObject>
+@protocol BTCManagerClientDelegate <NSObject>
+
+- (void)serverAvailableForConnection:(NSString *)sID withDisplayName:(NSString *)displayName;
+- (void)serverNoLongerAvailableForConnection:(NSString *)sID withDisplayName:(NSString *)displayName;
 
 
-@optional
+@end
+
+@protocol BTCManagerServerDelegate <NSObject>
+
 - (BOOL)allowConnectionFromPeerID:(NSString *)peer;
 
 @end
@@ -21,12 +27,15 @@
     GKSession *session;
     NSString *sessionID;
     GKSessionMode sessionMode;
-    id <BTCManagerDelegate> delegate;
 }
-@property (nonatomic, weak) id <BTCManagerDelegate> delegate;
+@property (nonatomic, weak) id <BTCManagerClientDelegate> clientDelegate;
+@property (nonatomic, weak) id <BTCManagerServerDelegate> serverDelegate;
 
 - (id)initWithSessionID:(NSString *)sID andMode:(GKSessionMode)sMode;
 
 - (void)startSession;
 - (void)stopSession;
+
+
+- (void)connectToServer:(NSString *)serverId;
 @end

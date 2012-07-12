@@ -15,6 +15,7 @@
 @end
 
 @implementation BTCManager
+@synthesize clientDelegate, serverDelegate;
 
 - (id)initWithSessionID:(NSString *)sID andMode:(GKSessionMode)sMode {
     self = [super init];
@@ -27,7 +28,9 @@
 }
 
 - (void)configureSession {
-    session = [[GKSession alloc] initWithSessionID:sessionID displayName:@"Server" sessionMode:sessionMode];
+    NSString *displayName = sessionMode == GKSessionModeServer ? @"Server" : @"Client";
+    session = [[GKSession alloc] initWithSessionID:sessionID displayName:displayName sessionMode:sessionMode];
+    [session setDataReceiveHandler:self withContext:nil];
     [session setDelegate:self];
 }
 
@@ -44,19 +47,32 @@
     session = nil;
 }
 
-- (void)session:(GKSession *)s didReceiveConnectionRequestFromPeer:(NSString *)peerID {
-    
-    if ([delegate respondsToSelector:@selector(allowConnectionFromPeerID:)])
-        if ([delegate allowConnectionFromPeerID:peerID])
-            [s connectToPeer:peerID withTimeout:20];
+- (void)connectToServer:(NSString *)serverId {
+    [session connectToPeer:serverId withTimeout:20];
 }
 
-- (void)session:(GKSession *)session peer:(NSString *)peerID didChangeState:(GKPeerConnectionState)state {
+- (void)session:(GKSession *)s didReceiveConnectionRequestFromPeer:(NSString *)peerID {
+    
+    NSLog(@"did recieve connection request");
+    if ([serverDelegate respondsToSelector:@selector(allowConnectionFromPeerID:)])
+        if ([serverDelegate allowConnectionFromPeerID:peerID]) {
+            NSError *error = nil;
+            if (![s acceptConnectionFromPeer:peerID error:&error]) {
+                NSLog(@"failed to accept connection %@", [error localizedDescription]);
+            }
+        } else {
+            [s denyConnectionFromPeer:peerID];
+        }
+}
+
+- (void)session:(GKSession *)s peer:(NSString *)peerID didChangeState:(GKPeerConnectionState)state {
     switch (state) {
         case GKPeerStateAvailable:
             NSLog(@"available");
-            if (sessionMode == GKSessionModeClient)
-                [session connectToPeer:peerID withTimeout:20];
+            if (sessionMode == GKSessionModeClient) {
+                if ([clientDelegate respondsToSelector:@selector(serverAvailableForConnection:withDisplayName:)])
+                    [clientDelegate serverAvailableForConnection:peerID withDisplayName:[s displayNameForPeer:peerID]];
+            }
             break;
         case GKPeerStateConnecting:
             NSLog(@"connecting");
@@ -69,11 +85,19 @@
             break;
         case GKPeerStateUnavailable:
             NSLog(@"unavailable");
+            if (sessionMode == GKSessionModeClient) {
+                if ([clientDelegate respondsToSelector:@selector(serverNoLongerAvailableForConnection:withDisplayName:)])
+                    [clientDelegate serverNoLongerAvailableForConnection:peerID withDisplayName:[s displayNameForPeer:peerID]];
+            }
             break;
         default:
             break;
     }
-    
 }
+
+- (void) receiveData:(NSData *)data fromPeer:(NSString *)peer inSession: (GKSession *)session context:(void *)context {
+    NSLog(@"data recieved");
+}
+
 
 @end
