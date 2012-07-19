@@ -12,6 +12,6 @@
 @interface BTButton : UIButton
 
 @property (nonatomic, weak) BTCManager *manager;
-
++ (id)buttonWithTag:(int)t andManager:(BTCManager *)m andFrame:(CGRect)f inView:(UIView *)view;
 - (void)emptyAction;
 @end

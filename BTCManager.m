@@ -61,11 +61,19 @@
 }
 
 - (void)registerButtonWithManager:(BTButton *)button {
-    [button setManager:self];
+    if ([button tag] != NSNotFound && ![buttonTags containsObject:[NSNumber numberWithInt:[button tag]]]) {
+        [button setManager:self];
+        [buttonTags addObject:[NSNumber numberWithInt:[button tag]]];
+    } else 
+        NSLog(@"The BTButton could not be registered with the manager because the tag is either invalid, or already in use");
 }
 
 - (void)registerJoystickWithManager:(BTCJoyStickVC *)js {
-    [js setManager:self];
+    if ([[js view] tag] != NSNotFound && ![joyStickTags containsObject:[NSNumber numberWithInt:[[js view] tag]]]) {
+        [js setManager:self];
+        [joyStickTags addObject:[NSNumber numberWithInt:[[js view] tag]]];
+    } else
+        NSLog(@"The BTCJoyStick could not be registered with the manager becuase the tag is either invalid, or already in use");
 }
 
 - (void)session:(GKSession *)s didReceiveConnectionRequestFromPeer:(NSString *)peerID {
@@ -136,14 +144,12 @@
         peers = [NSArray arrayWithObject:connectedServerID];
     
     NSData *packet = [NSData dataWithBytes:networkPacket length:(length+headerPacketSize)];
-    if (howtosend == YES)
-    {
+    if (howtosend == YES) {
         if (![session sendData:packet toPeers:peers withDataMode:GKSendDataReliable error:nil]) {
             NSLog(@"failed to send data reliably");
         }
     }
-    else if (howtosend == NO)
-    {
+    else if (howtosend == NO) {
         if (![session sendData:packet toPeers:peers withDataMode:GKSendDataUnreliable error:nil]) {
             NSLog(@"failed to send data unreliably");
         }
@@ -158,7 +164,6 @@
     switch (dataPacketType) {
         case dataPacketTypeButton: {
             int buttonTag = bytes[sizeof(DataPacketType)];
-            NSLog(@"Button %i pressed", buttonTag);
             if ([serverDelegate respondsToSelector:@selector(buttonPressedWithTag:fromPeer:withDisplayName:)]) 
                 [serverDelegate buttonPressedWithTag:buttonTag fromPeer:peer withDisplayName:[s displayNameForPeer:peer]];
             break;
@@ -172,8 +177,6 @@
             
             if ([serverDelegate respondsToSelector:@selector(joyStickMovedWithTag:distance:angle:fromPeer:withDisplayName:)]) 
                 [serverDelegate joyStickMovedWithTag:joyStickTag distance:distance angle:angle fromPeer:peer withDisplayName:[s displayNameForPeer:peer]];
-//            NSLog(@"joystick pressed %i distance %f and angle %f", joyStickTag, distance, angle);
-                        NSLog(@"distance %f and angle %f", distance, angle);
         }
         default:
             break;

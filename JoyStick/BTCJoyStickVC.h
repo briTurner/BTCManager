@@ -19,4 +19,5 @@
     CGPoint joyStickOrigin;
 }
 @property (nonatomic, weak) BTCManager *manager;
++ (id)joyStickWithTag:(int)tag andManager:(BTCManager *)m andFrame:(CGRect)f inViewController:(UIViewController *)v;
 @end

@@ -18,6 +18,21 @@
 @implementation BTCJoyStickVC
 @synthesize manager;
 
++ (id)joyStickWithTag:(int)tag andManager:(BTCManager *)m andFrame:(CGRect)f inViewController:(UIViewController *)vc {
+    BTCJoyStickVC *joyStick = [[super allocWithZone:nil] initWithNibName:nil bundle:nil];
+    [[joyStick view] setFrame:f];
+    [[joyStick view] setTag:tag];
+    [[vc view] addSubview:[joyStick view]];
+    [vc addChildViewController:joyStick];
+    [m registerJoystickWithManager:joyStick];
+    return joyStick;
+}
+
++ (id)allocWithZone:(NSZone *)zone {
+    NSLog(@"please use joyStickWithTag:andManager:andFrame:inView: to setup a BTCJoyStickVC correctly");
+    return [self joyStickWithTag:NSNotFound andManager:nil andFrame:CGRectZero inViewController:nil];
+}
+
 - (void)loadView {
     BTJoyStickPadView *padView = [[BTJoyStickPadView alloc] initWithFrame:CGRectZero];
     [self setView:padView];
@@ -81,10 +96,7 @@
     }
 }
 
-
-
-- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
-{   
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {   
     if (selectedView)
     {
         [UIView animateWithDuration:.2 animations:^(void) {
@@ -101,43 +113,23 @@
 #pragma mark - my math stuff
 
 - (CGFloat) angleBetweenPoints:(CGPoint)first andSecond:(CGPoint)second {
-    //    NSLog(@"first point is %f,%f     second point is %f,%f",first.x, first.y, second.x,second.y);
     CGFloat height = abs(second.y - first.y);
     CGFloat width = abs(first.x - second.x);
-    //    CGFloat rads = atan(height/width);
     
-    if (second.y <= first.y && second.x >= first.x)
-    {
-        //        NSLog(@"first hem");
-        CGFloat rads = atan(width/height);
-        return rads;
-    }
-    if(second.y >= first.y &&second.x >= first.x)
-    {
-        //       NSLog(@"second hem");
-        CGFloat rads = atan(height/width);
+    CGFloat rads = 0;
+    if (second.y <= first.y && second.x >= first.x) {
+        rads = atan(width/height);
+    } else if(second.y >= first.y &&second.x >= first.x) {
+        rads = atan(height/width);
         rads += (M_PI*.5);
-        return rads;
-    }
-    if (second.y >= first.y && second.x <= first.x)
-    {
-        //        NSLog(@"third hem");
-        CGFloat rads = atan(width/height);
-        rads += M_PI;
-        return rads;
-        
-    }
-    if (second.x <= first.x && second.y <= first.y)
-    {
-        //        NSLog(@"fourth hem");
-        CGFloat rads = atan(height/width);
+    } else  if (second.y >= first.y && second.x <= first.x) {
+        rads = atan(width/height);
+        rads += M_PI;        
+    } else if (second.x <= first.x && second.y <= first.y) {
+        rads = atan(height/width);
         rads += (M_PI*1.5);
-        return rads;
     }
-    
-    
-    
-    return 0;
+    return rads;
 }
 
 - (CGFloat) distanceBetweenPoint:(CGPoint)point1 andPoint:(CGPoint)point2 {

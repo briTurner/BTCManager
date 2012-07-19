@@ -57,6 +57,8 @@ typedef struct {
     
     NSString *connectedServerID;
 
+    NSMutableArray *joyStickTags;
+    NSMutableArray *buttonTags;
 }
 @property (nonatomic, strong) NSString *sessionID;
 @property (nonatomic) GKSessionMode sessionMode;
