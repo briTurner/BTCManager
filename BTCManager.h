@@ -8,8 +8,10 @@
 
 #import <Foundation/Foundation.h>
 #import <GameKit/GameKit.h>
+#import "BTCConstants.h"
+
 @class BTButton;
-@class BTCJoyStickVC;
+@class BTCJoyStickController;
 
 @protocol BTCManagerDelegate <NSObject>
 
@@ -45,11 +47,7 @@ typedef enum {
     dataPacketTypeJoyStick,
 }DataPacketType;
 
-typedef struct {
-    int joyStickID;
-    float angle;
-    float distance;
-} JoyStickDataStruct;
+
 
 @interface BTCManager : NSObject <GKSessionDelegate> {
     
@@ -76,7 +74,7 @@ typedef struct {
 - (void)connectToServer:(NSString *)serverId;
 
 - (void)registerButtonWithManager:(BTButton *)button;
-- (void)registerJoystickWithManager:(BTCJoyStickVC *)js;
+- (void)registerJoystickWithManager:(BTCJoyStickController *)js;
 
 - (void)sendNetworkPacketWithID:(DataPacketType)packetID withData:(void *)data ofLength:(size_t)length reliable:(BOOL)howtosend toPeers:(NSArray *)peers;
 @end

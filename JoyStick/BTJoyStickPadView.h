@@ -7,11 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BTCConstants.h"
 
+@class BTCJoyStickController;
 
 @interface BTJoyStickPadView : UIView {
-@private
     
 }
+@property (nonatomic, weak) BTCJoyStickController *controller;
+
 
 @end

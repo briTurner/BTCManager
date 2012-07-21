@@ -7,17 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BTCConstants.h"
+
 @class BTJoyStickView;
 @class BTCManager;
 
-@interface BTCJoyStickVC : UIViewController {
-    UIView *selectedView;
-    
-    BTJoyStickView *joyStickView;
 
+@interface BTCJoyStickController : UIViewController {
     
-    CGPoint joyStickOrigin;
 }
 @property (nonatomic, weak) BTCManager *manager;
-+ (id)joyStickWithTag:(int)tag andManager:(BTCManager *)m andFrame:(CGRect)f inViewController:(UIViewController *)v;
++ (id)joyStickWithTag:(int)tag andManager:(BTCManager *)m andFrame:(CGRect)f inView:(UIView *)v;
+
+- (void)joyStickPositionUpdated:(JoyStickDataStruct)jsData;
 @end

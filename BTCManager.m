@@ -8,7 +8,7 @@
 
 #import "BTCManager.h"
 #import "BTButton.h"
-#import "BTCJoyStickVC.h"
+#import "BTCJoyStickController.h"
 
 @interface BTCManager ()
 
@@ -68,7 +68,7 @@
         NSLog(@"The BTButton could not be registered with the manager because the tag is either invalid, or already in use");
 }
 
-- (void)registerJoystickWithManager:(BTCJoyStickVC *)js {
+- (void)registerJoystickWithManager:(BTCJoyStickController *)js {
     if ([[js view] tag] != NSNotFound && ![joyStickTags containsObject:[NSNumber numberWithInt:[[js view] tag]]]) {
         [js setManager:self];
         [joyStickTags addObject:[NSNumber numberWithInt:[[js view] tag]]];
@@ -109,9 +109,10 @@
         case GKPeerStateConnected:
             NSLog(@"%@ connected", [s displayNameForPeer:peerID]);
             if (sessionMode == GKSessionModeClient) {
-                [clientDelegate peerConnected:peerID withDisplayName:[s displayNameForPeer:peerID]];
+                [clientDelegate peerConnected:peerID withDisplayName:[s displayNameForPeer:peerID]];                
                 connectedServerID = peerID;
-            }
+            } else 
+                [serverDelegate peerConnected:peerID withDisplayName:[s displayNameForPeer:peerID]];
             break;
         case GKPeerStateDisconnected:
             NSLog(@"%@ disconnected", [s displayNameForPeer:peerID]);
