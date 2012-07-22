@@ -7,8 +7,9 @@
 //
 
 #import "BTCManager.h"
-#import "BTButton.h"
+#import "BTCButton.h"
 #import "BTCJoyStickController.h"
+#import "BTCManagerDelegate.h"
 
 @interface BTCManager ()
 
@@ -20,6 +21,8 @@
 @synthesize clientDelegate, serverDelegate;
 @synthesize displayName;
 
+
+#pragma mark - Manager config stuff
 + (id)sharedManager {
     static BTCManager *manager = nil;
     if (!manager) {
@@ -60,9 +63,8 @@
     conectingToServerID = serverId;
 }
 
-
 #pragma mark - UI elements
-- (void)registerButtonWithManager:(BTButton *)button {
+- (void)registerButtonWithManager:(BTCButton *)button {
     if ([button tag] != NSNotFound && ![buttonTags containsObject:[NSNumber numberWithInt:[button tag]]]) {
         [button setManager:self];
         [buttonTags addObject:[NSNumber numberWithInt:[button tag]]];
@@ -145,7 +147,6 @@
 
 
 - (void)sendNetworkPacketWithID:(DataPacketType)packetID withData:(void *)data ofLength:(size_t)length reliable:(BOOL)howtosend toPeers:(NSArray *)peers {
-    
     unsigned char networkPacket[1024];
     unsigned int headerPacketSize = (sizeof(int)); 
     networkPacket[0]=packetID;
@@ -168,7 +169,7 @@
     }
 }
 
-- (void)receiveData:(NSData *)data fromPeer:(NSString *)peer inSession: (GKSession *)s context:(void *)context {
+- (void)receiveData:(NSData *)data fromPeer:(NSString *)peerID inSession: (GKSession *)s context:(void *)context {
     char * bytes = (char *)[data bytes];
     DataPacketType dataPacketType = (DataPacketType)bytes[0];
     
@@ -177,7 +178,7 @@
         case dataPacketTypeButton: {
             int buttonTag = bytes[sizeof(DataPacketType)];
             if ([serverDelegate respondsToSelector:@selector(buttonPressedWithTag:fromPeer:withDisplayName:)]) 
-                [serverDelegate buttonPressedWithTag:buttonTag fromPeer:peer withDisplayName:[s displayNameForPeer:peer]];
+                [serverDelegate buttonPressedWithTag:buttonTag fromPeer:peerID withDisplayName:[s displayNameForPeer:peerID]];
             break;
         }
         case dataPacketTypeJoyStick: {
@@ -188,7 +189,7 @@
             float distance = joyStickData.distance;  
             
             if ([serverDelegate respondsToSelector:@selector(joyStickMovedWithTag:distance:angle:fromPeer:withDisplayName:)]) 
-                [serverDelegate joyStickMovedWithTag:joyStickTag distance:distance angle:angle fromPeer:peer withDisplayName:[s displayNameForPeer:peer]];
+                [serverDelegate joyStickMovedWithTag:joyStickTag distance:distance angle:angle fromPeer:peerID withDisplayName:[s displayNameForPeer:peerID]];
         }
         default:
             break;

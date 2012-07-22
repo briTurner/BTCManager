@@ -6,15 +6,15 @@
 //  Copyright (c) 2012 Big Nerd Ranch. All rights reserved.
 //
 
-#import "BTButton.h"
+#import "BTCButton.h"
 #import "BTCManager.h"
 
-@implementation BTButton
+@implementation BTCButton
 @synthesize manager;
 
 
 + (id)buttonWithTag:(int)t andManager:(BTCManager *)m andFrame:(CGRect)f inView:(UIView *)view {
-    BTButton *button = [[super allocWithZone:nil] initWithFrame:f];
+    BTCButton *button = [[super allocWithZone:nil] initWithFrame:f];
     [button setTag:t];
     [button setBackgroundColor:[UIColor redColor]];
     [m registerButtonWithManager:button];

@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 @class BTCManager;
 
-@interface BTButton : UIButton
+@interface BTCButton : UIButton
 
 @property (nonatomic, weak) BTCManager *manager;
 + (id)buttonWithTag:(int)t andManager:(BTCManager *)m andFrame:(CGRect)f inView:(UIView *)view;

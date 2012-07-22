@@ -6,21 +6,21 @@
 //  Copyright 2011 Apple Inc. All rights reserved.
 //
 
-#import "BTJoyStickPadView.h"
-#import "BTJoyStickView.h"
+#import "BTCJoyStickPadView.h"
+#import "BTCJoyStickView.h"
 #import "BTCJoyStickController.h"
 
-@interface BTJoyStickPadView () {
+@interface BTCJoyStickPadView () {
     CGPoint joyStickOrigin;    
     
-    BTJoyStickView *joyStickView;
+    BTCJoyStickView *joyStickView;
     
     UIView *selectedView;
 }
 
 @end
 
-@implementation BTJoyStickPadView
+@implementation BTCJoyStickPadView
 @synthesize controller;
 
 - (id)initWithFrame:(CGRect)frame
@@ -31,7 +31,7 @@
         [self setBackgroundColor:[UIColor clearColor]];
         
         CGSize joyStickSize = CGSizeMake(40, 40);
-        joyStickView = [[BTJoyStickView alloc] initWithFrame:CGRectMake(joyStickOrigin.x - joyStickSize.width/2, joyStickOrigin.y - joyStickSize.height/2, joyStickSize.width, joyStickSize.height)];
+        joyStickView = [[BTCJoyStickView alloc] initWithFrame:CGRectMake(joyStickOrigin.x - joyStickSize.width/2, joyStickOrigin.y - joyStickSize.height/2, joyStickSize.width, joyStickSize.height)];
         
         [self addSubview:joyStickView];
     }

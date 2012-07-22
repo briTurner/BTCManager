@@ -7,8 +7,8 @@
 //
 
 #import "BTCJoyStickController.h"
-#import "BTJoyStickView.h"
-#import "BTJoyStickPadView.h"
+#import "BTCJoyStickView.h"
+#import "BTCJoyStickPadView.h"
 #import "BTCManager.h"
 
 @interface BTCJoyStickController () {
@@ -36,13 +36,9 @@
 }
 
 - (void)loadView {
-    BTJoyStickPadView *padView = [[BTJoyStickPadView alloc] initWithFrame:[self viewFrame]];
+    BTCJoyStickPadView *padView = [[BTCJoyStickPadView alloc] initWithFrame:[self viewFrame]];
     [padView setController:self];
     [self setView:padView];
-}
-
-- (void)viewDidLoad {
-    [super viewDidLoad];
 }
 
 - (void)joyStickPositionUpdated:(JoyStickDataStruct)jsData {

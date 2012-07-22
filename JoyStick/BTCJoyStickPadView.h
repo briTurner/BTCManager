@@ -11,7 +11,7 @@
 
 @class BTCJoyStickController;
 
-@interface BTJoyStickPadView : UIView {
+@interface BTCJoyStickPadView : UIView {
     
 }
 @property (nonatomic, weak) BTCJoyStickController *controller;

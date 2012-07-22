@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "BTCConstants.h"
 
-@class BTJoyStickView;
+@class BTCJoyStickView;
 @class BTCManager;
 
 

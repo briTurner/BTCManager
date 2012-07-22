@@ -6,10 +6,10 @@
 //  Copyright 2011 Apple Inc. All rights reserved.
 //
 
-#import "BTJoyStickView.h"
+#import "BTCJoyStickView.h"
 
 
-@implementation BTJoyStickView
+@implementation BTCJoyStickView
 
 - (id)initWithFrame:(CGRect)frame
 {

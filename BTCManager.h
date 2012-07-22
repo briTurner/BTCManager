@@ -10,38 +10,12 @@
 #import <GameKit/GameKit.h>
 #import "BTCConstants.h"
 
-@class BTButton;
+@class BTCButton;
 @class BTCJoyStickController;
 
-@protocol BTCManagerDelegate <NSObject>
+@protocol BTCManagerClientDelegate;
+@protocol BTCManagerServerDelegate;
 
-- (void)peerConnected:(NSString *)peerID withDisplayName:(NSString *)displayName;
-- (void)peerDisconnected:(NSString *)sID withDisplayName:(NSString *)displayName;
-
-@end
-
-@protocol BTCManagerClientDelegate <BTCManagerDelegate>
-
-- (void)serverAvailableForConnection:(NSString *)sID withDisplayName:(NSString *)dName;
-- (void)successfullyConnectedToServer:(NSString *)sID withDisplayName:(NSString *)dName;
-
-@optional
-
-- (void)serverNoLongerAvailableForConnection:(NSString *)sID withDisplayName:(NSString *)displayName;
-
-@end
-
-@protocol BTCManagerServerDelegate <BTCManagerDelegate>
-
-- (BOOL)allowConnectionFromPeerID:(NSString *)peerID withDisplayName:(NSString *)displayName;
-
-@optional
-- (void)peerConnecting:(NSString *)peerID withDisplayName:(NSString *)displayName;
-
-- (void)buttonPressedWithTag:(int)buttonTag fromPeer:(NSString *)peer withDisplayName:(NSString *)displayName;
-- (void)joyStickMovedWithTag:(int)joystickTag distance:(float)d angle:(float)a fromPeer:(NSString *)peer withDisplayName:(NSString *)displayName;
-
-@end
 
 typedef enum {
     dataPacketTypeButton,
@@ -51,7 +25,6 @@ typedef enum {
 
 
 @interface BTCManager : NSObject <GKSessionDelegate> {
-    
     GKSession *session;
     
     NSString *conectingToServerID;
@@ -76,7 +49,7 @@ typedef enum {
 
 - (void)connectToServer:(NSString *)serverId;
 
-- (void)registerButtonWithManager:(BTButton *)button;
+- (void)registerButtonWithManager:(BTCButton *)button;
 - (void)registerJoystickWithManager:(BTCJoyStickController *)js;
 
 - (void)sendNetworkPacketWithID:(DataPacketType)packetID withData:(void *)data ofLength:(size_t)length reliable:(BOOL)howtosend toPeers:(NSArray *)peers;
