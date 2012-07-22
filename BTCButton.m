@@ -9,6 +9,13 @@
 #import "BTCButton.h"
 #import "BTCManager.h"
 
+
+@interface BTCButton ()
+
+- (void)emptyAction;
+
+@end
+
 @implementation BTCButton
 @synthesize manager;
 

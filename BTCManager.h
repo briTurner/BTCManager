@@ -22,16 +22,8 @@ typedef enum {
     dataPacketTypeJoyStick,
 }DataPacketType;
 
-
-
 @interface BTCManager : NSObject <GKSessionDelegate> {
-    GKSession *session;
-    
-    NSString *conectingToServerID;
-    NSString *connectedServerID;
 
-    NSMutableArray *joyStickTags;
-    NSMutableArray *buttonTags;
 }
 @property (nonatomic, strong) NSString *sessionID;
 @property (nonatomic) GKSessionMode sessionMode;
@@ -41,11 +33,9 @@ typedef enum {
 @property (nonatomic, weak) id <BTCManagerServerDelegate> serverDelegate;
 + (id)sharedManager;
 
-- (void)configureSession;
-
 - (void)startSession;
 - (void)disconnect;
-- (void)becomeUavailable;
+- (void)becomeUnavailable;
 
 - (void)connectToServer:(NSString *)serverId;
 
