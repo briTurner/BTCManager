@@ -22,7 +22,8 @@
 
 @protocol BTCManagerClientDelegate <BTCManagerDelegate>
 
-- (void)serverAvailableForConnection:(NSString *)sID withDisplayName:(NSString *)displayName;
+- (void)serverAvailableForConnection:(NSString *)sID withDisplayName:(NSString *)dName;
+- (void)successfullyConnectedToServer:(NSString *)sID withDisplayName:(NSString *)dName;
 
 @optional
 
@@ -53,6 +54,7 @@ typedef enum {
     
     GKSession *session;
     
+    NSString *conectingToServerID;
     NSString *connectedServerID;
 
     NSMutableArray *joyStickTags;
@@ -60,6 +62,7 @@ typedef enum {
 }
 @property (nonatomic, strong) NSString *sessionID;
 @property (nonatomic) GKSessionMode sessionMode;
+@property (nonatomic, strong) NSString *displayName;
 
 @property (nonatomic, weak) id <BTCManagerClientDelegate> clientDelegate;
 @property (nonatomic, weak) id <BTCManagerServerDelegate> serverDelegate;

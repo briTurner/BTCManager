@@ -18,6 +18,7 @@
 @synthesize sessionID;
 @synthesize sessionMode;
 @synthesize clientDelegate, serverDelegate;
+@synthesize displayName;
 
 + (id)sharedManager {
     static BTCManager *manager = nil;
@@ -33,13 +34,11 @@
 
 - (void)configureSession {
     if (sessionID) {
-        NSString *displayName = sessionMode == GKSessionModeServer ? @"Server" : @"Client";
-        session = [[GKSession alloc] initWithSessionID:sessionID displayName:displayName sessionMode:sessionMode];
+        session = [[GKSession alloc] initWithSessionID:sessionID displayName:[self displayName] sessionMode:sessionMode];
         [session setDataReceiveHandler:self withContext:nil];
         [session setDelegate:self];
-    } else {
+    } else
         NSLog(@"Make sure you set session id and session mode before trying to use manager");
-    }
 }
 
 - (void)startSession {
@@ -58,8 +57,11 @@
 
 - (void)connectToServer:(NSString *)serverId {
     [session connectToPeer:serverId withTimeout:20];
+    conectingToServerID = serverId;
 }
 
+
+#pragma mark - UI elements
 - (void)registerButtonWithManager:(BTButton *)button {
     if ([button tag] != NSNotFound && ![buttonTags containsObject:[NSNumber numberWithInt:[button tag]]]) {
         [button setManager:self];
@@ -75,6 +77,8 @@
     } else
         NSLog(@"The BTCJoyStick could not be registered with the manager becuase the tag is either invalid, or already in use");
 }
+
+
 
 - (void)session:(GKSession *)s didReceiveConnectionRequestFromPeer:(NSString *)peerID {
     NSLog(@"Did recieve connection request");
@@ -109,8 +113,13 @@
         case GKPeerStateConnected:
             NSLog(@"%@ connected", [s displayNameForPeer:peerID]);
             if (sessionMode == GKSessionModeClient) {
-                [clientDelegate peerConnected:peerID withDisplayName:[s displayNameForPeer:peerID]];                
-                connectedServerID = peerID;
+                if ([peerID isEqualToString:conectingToServerID]) {
+                    connectedServerID = conectingToServerID;
+                    conectingToServerID = nil;
+                    [clientDelegate successfullyConnectedToServer:peerID withDisplayName:[s displayNameForPeer:peerID]];
+                } else {
+                    [clientDelegate peerConnected:peerID withDisplayName:[s displayNameForPeer:peerID]];                
+                }
             } else 
                 [serverDelegate peerConnected:peerID withDisplayName:[s displayNameForPeer:peerID]];
             break;
@@ -118,6 +127,8 @@
             NSLog(@"%@ disconnected", [s displayNameForPeer:peerID]);
             if (sessionMode == GKSessionModeClient) {
                 [clientDelegate peerDisconnected:peerID withDisplayName:[s displayNameForPeer:peerID]];
+            } else {
+                [serverDelegate peerDisconnected:peerID withDisplayName:[s displayNameForPeer:peerID]];
             }
             break;
         case GKPeerStateUnavailable:
