@@ -114,10 +114,6 @@
     }
 }
 
-
-
-
-
 - (void)session:(GKSession *)s didReceiveConnectionRequestFromPeer:(NSString *)peerID {
     NSLog(@"Did recieve connection request from %@", [s displayNameForPeer:peerID]);
     [serverDelegate manager:self allowConnectionFromPeer:peerID withDisplayName:[s displayNameForPeer:peerID] response:^(BOOL response) {
@@ -139,16 +135,19 @@
             if (sessionMode == BTCConnectionTypeController) {
                 if ([clientDelegate respondsToSelector:@selector(manager:serverAvailableForConnection:withDisplayName:)])
                     [clientDelegate manager:self serverAvailableForConnection:peerID withDisplayName:[s displayNameForPeer:peerID]];
+            } else {
+                if ([serverDelegate respondsToSelector:@selector(manager:controllerAvailableForConnection:withDisplayName:)])
+                    [serverDelegate manager:self controllerAvailableForConnection:peerID withDisplayName:[s displayNameForPeer:peerID]];
             }
             break;
         case GKPeerStateConnecting:
             NSLog(@"%@ connecting", [s displayNameForPeer:peerID]);
             if (sessionMode == BTCConnectionTypeController) {
-                if ([clientDelegate respondsToSelector:@selector(manager:connectingToPeer:withDisplayName:)])
-                    [clientDelegate manager:self connectingToPeer:peerID withDisplayName:[s displayNameForPeer:peerID]];
+                if ([clientDelegate respondsToSelector:@selector(manager:connectingToServer:withDisplayName:)])
+                    [clientDelegate manager:self connectingToServer:peerID withDisplayName:[s displayNameForPeer:peerID]];
             } else {
-                if ([serverDelegate respondsToSelector:@selector(manager:connectingToPeer:withDisplayName:)])
-                    [serverDelegate manager:self connectingToPeer:peerID withDisplayName:[s displayNameForPeer:peerID]];
+                if ([serverDelegate respondsToSelector:@selector(manager:connectingToController:withDisplayName:)])
+                    [serverDelegate manager:self connectingToController:peerID withDisplayName:[s displayNameForPeer:peerID]];
             }
             break;
         case GKPeerStateConnected:
@@ -160,12 +159,12 @@
                     if ([clientDelegate respondsToSelector:@selector(manager:connectedToServer:withDisplayName:)])
                         [clientDelegate manager:self connectedToServer:peerID withDisplayName:[s displayNameForPeer:peerID]];
                 } else {
-                    if ([clientDelegate respondsToSelector:@selector(manager:connectedToPeer:withDisplayName:)])
-                        [clientDelegate manager:self connectedToPeer:peerID withDisplayName:[s displayNameForPeer:peerID]];
+                    if ([clientDelegate respondsToSelector:@selector(manager:peerControllerConnected:withDisplayName:)])
+                        [clientDelegate manager:self peerControllerConnected:peerID withDisplayName:[s displayNameForPeer:peerID]];
                 }
             } else {
-                if ([serverDelegate respondsToSelector:@selector(manager:connectedToPeer:withDisplayName:)])
-                    [serverDelegate manager:self connectedToPeer:peerID withDisplayName:[s displayNameForPeer:peerID]];
+                if ([serverDelegate respondsToSelector:@selector(manager:connectedToController:withDisplayName:)])
+                    [serverDelegate manager:self connectedToController:peerID withDisplayName:[s displayNameForPeer:peerID]];
             }
             break;
         case GKPeerStateDisconnected:
@@ -175,19 +174,22 @@
                     _connectedServerID = nil;
                     if ([clientDelegate respondsToSelector:@selector(manager:disconnectedFromServer:withDisplayName:)])
                         [clientDelegate manager:self disconnectedFromServer:peerID withDisplayName:[s displayNameForPeer:peerID]];
-                }
-                if ([clientDelegate respondsToSelector:@selector(manager:disconnectedFromPeer:withDisplayName:)])
-                    [clientDelegate manager:self disconnectedFromPeer:peerID withDisplayName:[s displayNameForPeer:peerID]];
+                } else
+                    if ([clientDelegate respondsToSelector:@selector(manager:peerControllerDisconnected:withDisplayName:)])
+                        [clientDelegate manager:self peerControllerDisconnected:peerID withDisplayName:[s displayNameForPeer:peerID]];
             } else {
-                if ([serverDelegate respondsToSelector:@selector(manager:disconnectedFromPeer:withDisplayName:)])
-                    [serverDelegate manager:self disconnectedFromPeer:peerID withDisplayName:[s displayNameForPeer:peerID]];
+                if ([serverDelegate respondsToSelector:@selector(manager:disconnectedFromController:withDisplayName:)])
+                    [serverDelegate manager:self disconnectedFromController:peerID withDisplayName:[s displayNameForPeer:peerID]];
             }
             break;
         case GKPeerStateUnavailable:
             NSLog(@"%@ unavailable", [s displayNameForPeer:peerID]);
             if (sessionMode == BTCConnectionTypeController) {
-                if ([clientDelegate respondsToSelector:@selector(manager:serverNoLongerAvailableForConnection:withDisplayName:)])
-                    [clientDelegate manager:self serverNoLongerAvailableForConnection:peerID withDisplayName:[s displayNameForPeer:peerID]];
+                if ([clientDelegate respondsToSelector:@selector(manager:serverNoLongerAvailable:withDisplayName:)])
+                    [clientDelegate manager:self serverNoLongerAvailable:peerID withDisplayName:[s displayNameForPeer:peerID]];
+            } else {
+                if ([serverDelegate respondsToSelector:@selector(manager:controllerNoLongerAvailable:withDisplayName:)])
+                    [serverDelegate manager:self controllerNoLongerAvailable:peerID withDisplayName:[s displayNameForPeer:peerID]];
             }
             break;
         default:
@@ -230,8 +232,8 @@
     switch (dataPacketType) {
         case dataPacketTypeButton: {
             int buttonTag = bytes[sizeof(DataPacketType)];
-            if ([serverDelegate respondsToSelector:@selector(manager:buttonPressedWithTag:fromPeer:withDisplayName:)])
-                [serverDelegate manager:self buttonPressedWithTag:buttonTag fromPeer:peerID withDisplayName:[s displayNameForPeer:peerID]];
+            if ([serverDelegate respondsToSelector:@selector(manager:buttonPressedWithTag:fromController:withDisplayName:)])
+                [serverDelegate manager:self buttonPressedWithTag:buttonTag fromController:peerID withDisplayName:[s displayNameForPeer:peerID]];
             break;
         }
         case dataPacketTypeJoyStick: {
@@ -241,8 +243,8 @@
             float angle = joyStickData.angle;
             float distance = joyStickData.distance;
             
-            if ([serverDelegate respondsToSelector:@selector(manager:joyStickMovedWithTag:distance:angle:fromPeer:withDisplayName:)])
-                [serverDelegate manager:self joyStickMovedWithTag:joyStickTag distance:distance angle:angle fromPeer:peerID withDisplayName:[s displayNameForPeer:peerID]];
+            if ([serverDelegate respondsToSelector:@selector(manager:joyStickMovedWithTag:distance:angle:fromController:withDisplayName:)])
+                [serverDelegate manager:self joyStickMovedWithTag:joyStickTag distance:distance angle:angle fromController:peerID withDisplayName:[s displayNameForPeer:peerID]];
         }
         default:
             break;
