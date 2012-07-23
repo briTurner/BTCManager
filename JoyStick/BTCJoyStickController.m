@@ -12,7 +12,7 @@
 #import "BTCManager.h"
 
 @interface BTCJoyStickController () {
-
+    
 }
 @property (nonatomic) CGRect viewFrame;
 @end
@@ -25,8 +25,10 @@
     BTCJoyStickController *joyStick = [[super allocWithZone:nil] initWithNibName:nil bundle:nil];
     [joyStick setViewFrame:f];
     [[joyStick view] setTag:tag];
-    [view addSubview:[joyStick view]];
-    [m registerJoystickWithManager:joyStick];
+    
+    if ([m registerJoystickWithManager:joyStick]) {
+        [view addSubview:[joyStick view]];
+    }
     return joyStick;
 }
 

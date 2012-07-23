@@ -63,7 +63,7 @@
 @protocol BTCManagerServerDelegate <BTCManagerDelegate>
 //Required method which prompts the server as to wether or not it should accept a connection from a controller
 //  You can either simply return yes; or you can use the displayName of the controller to prompt the user in some way
-- (BOOL)manager:(BTCManager *)manager allowConnectionFromPeer:(NSString *)peerID withDisplayName:(NSString *)displayName;
+- (void)manager:(BTCManager *)manager allowConnectionFromPeer:(NSString *)peerID withDisplayName:(NSString *)displayName response:(void(^)(BOOL response))responseBlock;
 
 @optional
 //These methods are the real meat of the library

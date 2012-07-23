@@ -23,11 +23,12 @@
 + (id)buttonWithTag:(int)t andManager:(BTCManager *)m andFrame:(CGRect)f inView:(UIView *)view {
     BTCButton *button = [[super allocWithZone:nil] initWithFrame:f];
     [button setTag:t];
-    [button setBackgroundColor:[UIColor redColor]];
-    [m registerButtonWithManager:button];
-    [button setFrame:f];
-    [button addTarget:button action:@selector(emptyAction) forControlEvents:UIControlEventTouchUpInside];
-    [view addSubview:button];
+    if ([m registerButtonWithManager:button]) {
+        [button setBackgroundColor:[UIColor redColor]];
+        [button setFrame:f];
+        [button addTarget:button action:@selector(emptyAction) forControlEvents:UIControlEventTouchUpInside];
+        [view addSubview:button];
+    }
     return button;
 }
 
@@ -38,7 +39,7 @@
 
 - (void)sendAction:(SEL)action to:(id)target forEvent:(UIEvent *)event {
     [super sendAction:action to:target forEvent:event];
-
+    
     int buttonTag = [self tag];
     if (!manager || buttonTag == NSNotFound) {
         NSLog(@"please set manager and tag before attempting to use BTButton");

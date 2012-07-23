@@ -31,7 +31,7 @@ typedef enum {
 @property (nonatomic, strong) NSString *sessionID;
 
 
-@property (nonatomic) GKSessionMode sessionMode;
+@property (nonatomic) BTCConnectionType sessionMode;
 
 //This is an optional name for the device (controller and server) 
 //  This is human readable identifier that will be passed with all delegate methods
@@ -63,11 +63,11 @@ typedef enum {
 
 //You must use this to register all buttons with the manager
 //  This will allow the button to properly send the Game the notification
-- (void)registerButtonWithManager:(BTCButton *)button;
+- (BOOL)registerButtonWithManager:(BTCButton *)button;
 
 //You must use this to register all joysticks with the manager
 //  This will allow the joystick to properly send the Game the notification
-- (void)registerJoystickWithManager:(BTCJoyStickController *)js;
+- (BOOL)registerJoystickWithManager:(BTCJoyStickController *)js;
 
 - (void)sendNetworkPacketWithID:(DataPacketType)packetID withData:(void *)data ofLength:(size_t)length reliable:(BOOL)howtosend toPeers:(NSArray *)peers;
 @end

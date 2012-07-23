@@ -17,4 +17,9 @@ typedef struct {
     float distance;
 } JoyStickDataStruct;
 
+typedef enum {
+    BTCConnectionTypeController,
+    BTCConnectionTypeGame
+} BTCConnectionType;
+
 #endif
