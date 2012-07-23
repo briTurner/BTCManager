@@ -113,11 +113,14 @@
             if (sessionMode == GKSessionModeClient) {
                 if ([clientDelegate respondsToSelector:@selector(manager:serverAvailableForConnection:withDisplayName:)])
                     [clientDelegate manager:self serverAvailableForConnection:peerID withDisplayName:[s displayNameForPeer:peerID]];
-            }
+            } 
             break;
         case GKPeerStateConnecting:
             NSLog(@"%@ connecting", [s displayNameForPeer:peerID]);
-            if (sessionMode == GKSessionModeServer) {
+            if (sessionMode == GKSessionModeClient) {
+                if ([clientDelegate respondsToSelector:@selector(manager:connectingToPeer:withDisplayName:)])
+                    [clientDelegate manager:self connectingToPeer:peerID withDisplayName:[s displayNameForPeer:peerID]];
+            } else {
                 if ([serverDelegate respondsToSelector:@selector(manager:connectingToPeer:withDisplayName:)])
                     [serverDelegate manager:self connectingToPeer:peerID withDisplayName:[s displayNameForPeer:peerID]];
             }
@@ -128,19 +131,30 @@
                 if ([peerID isEqualToString:_conectingServerID]) {
                     _connectedServerID = _conectingServerID;
                     _conectingServerID = nil;
-                    [clientDelegate manager:self successfullyConnectedToServer:peerID withDisplayName:[s displayNameForPeer:peerID]];
+                    if ([clientDelegate respondsToSelector:@selector(manager:connectedToServer:withDisplayName:)])
+                        [clientDelegate manager:self connectedToServer:peerID withDisplayName:[s displayNameForPeer:peerID]];
                 } else {
-                    [clientDelegate manager:self connectedToPeer:peerID withDisplayName:[s displayNameForPeer:peerID]];
+                    if ([clientDelegate respondsToSelector:@selector(manager:connectedToPeer:withDisplayName:)])
+                        [clientDelegate manager:self connectedToPeer:peerID withDisplayName:[s displayNameForPeer:peerID]];
                 }
-            } else 
-                [serverDelegate manager:self connectedToPeer:peerID withDisplayName:[s displayNameForPeer:peerID]];
+            } else {
+                if ([serverDelegate respondsToSelector:@selector(manager:connectedToPeer:withDisplayName:)])
+                    [serverDelegate manager:self connectedToPeer:peerID withDisplayName:[s displayNameForPeer:peerID]];
+            }
             break;
         case GKPeerStateDisconnected:
             NSLog(@"%@ disconnected", [s displayNameForPeer:peerID]);
             if (sessionMode == GKSessionModeClient) {
-                [clientDelegate manager:self disconnectedFromPeer:peerID withDisplayName:[s displayNameForPeer:peerID]];
+                if ([peerID isEqualToString:_conectingServerID]) {
+                    _connectedServerID = nil;
+                    if ([clientDelegate respondsToSelector:@selector(manager:disconnectedFromServer:withDisplayName:)])
+                        [clientDelegate manager:self disconnectedFromServer:peerID withDisplayName:[s displayNameForPeer:peerID]];
+                }
+                if ([clientDelegate respondsToSelector:@selector(manager:disconnectedFromPeer:withDisplayName:)])
+                    [clientDelegate manager:self disconnectedFromPeer:peerID withDisplayName:[s displayNameForPeer:peerID]];
             } else {
-                [serverDelegate manager:self disconnectedFromPeer:peerID withDisplayName:[s displayNameForPeer:peerID]];
+                if ([serverDelegate respondsToSelector:@selector(manager:disconnectedFromPeer:withDisplayName:)])
+                    [serverDelegate manager:self disconnectedFromPeer:peerID withDisplayName:[s displayNameForPeer:peerID]];
             }
             break;
         case GKPeerStateUnavailable:
