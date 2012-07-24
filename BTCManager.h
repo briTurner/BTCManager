@@ -20,6 +20,7 @@
 typedef enum {
     dataPacketTypeButton,
     dataPacketTypeJoyStick,
+    dataPacketTypeVibration,
     dataPacketTypeArbitrary,
 }DataPacketType;
 
@@ -71,6 +72,8 @@ typedef enum {
 - (BOOL)registerJoystickWithManager:(BTCJoyStickController *)js;
 
 - (void)sendArbitraryData:(NSData *)data withIdentifier:(int)identifier reliably:(BOOL)reliable toPeers:(NSArray *)peers;
+
+- (void)vibrateControllers:(NSArray *)peers;
 
 - (void)sendNetworkPacketWithID:(DataPacketType)packetID withData:(void *)data ofLength:(size_t)length reliable:(BOOL)howtosend toPeers:(NSArray *)peers;
 @end

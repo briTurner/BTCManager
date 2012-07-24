@@ -11,6 +11,7 @@
 #import "BTCJoyStickController.h"
 #import "BTCManagerDelegate.h"
 #import <GameKit/GameKit.h>
+#import <AudioToolbox/AudioToolbox.h>
 
 @interface BTCManager () {
     GKSession *_session;
@@ -93,6 +94,10 @@
     memcpy(&completeArbitraryData[headerPacketSize], dataBytes, [data length]);
     
     [self sendNetworkPacketWithID:dataPacketTypeArbitrary withData:&completeArbitraryData ofLength:[data length] + headerPacketSize reliable:reliable toPeers:nil];
+}
+
+- (void)vibrateControllers:(NSArray *)peers {
+    [self sendNetworkPacketWithID:dataPacketTypeVibration withData:NULL ofLength:0 reliable:YES toPeers:peers];
 }
 
 #pragma mark - UI elements
@@ -258,6 +263,10 @@
             
             if ([serverDelegate respondsToSelector:@selector(manager:joyStickMovedWithTag:distance:angle:fromController:withDisplayName:)])
                 [serverDelegate manager:self joyStickMovedWithTag:joyStickTag distance:distance angle:angle fromController:peerID withDisplayName:[s displayNameForPeer:peerID]];
+            break;
+        }
+        case dataPacketTypeVibration: {
+            AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
             break;
         }
         case dataPacketTypeArbitrary: {
