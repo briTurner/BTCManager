@@ -9,10 +9,14 @@
 #import <Foundation/Foundation.h>
 @class BTCManager;
 
+@protocol BTManagerDelegate <NSObject>
+@optional
+- (void)manager:(BTCManager *)manager recievedArbitraryData:(NSData *)data ofType:(int)type fromPeer:(NSString *)peerID withDisplayname:(NSString *)displayName;
+
+@end
 
 
-
-@protocol BTCManagerClientDelegate <NSObject>
+@protocol BTCManagerClientDelegate <BTManagerDelegate>
 //This is required and will notify the controller when a server is available. You should present the 
 //  user with the servers display name and give them some way to chose to connect to the server. 
 - (void)manager:(BTCManager *)manager serverAvailableForConnection:(NSString *)serverID withDisplayName:(NSString *)displayName;
@@ -22,7 +26,6 @@
 - (void)manager:(BTCManager *)manager connectingToServer:(NSString *)serverID withDisplayName:(NSString *)displayName;
 
 //Alerts the delegate when a the controller has successfully conntected to a server
-//  manager:connectedToPeer:withDisplayName: will NOT be triggered as well. 
 - (void)manager:(BTCManager *)manager connectedToServer:(NSString *)serverID withDisplayName:(NSString *)displayName;
 
 //Alerts the delegate when a the controller has disconnected from a server
@@ -39,8 +42,11 @@
 //  do not depend on recieving this message in a timely mannor, or at all
 - (void)manager:(BTCManager *)manager serverNoLongerAvailable:(NSString *)serverID withDisplayName:(NSString *)displayName;
 
+
+//Alerts the controller when another controller connects
 - (void)manager:(BTCManager *)manager peerControllerConnected:(NSString *)controllerID withDisplayName:(NSString *)displayName;
 
+//Alerts the controller when another controller disconnects
 - (void)manager:(BTCManager *)manager peerControllerDisconnected:(NSString *)controllerID withDisplayName:(NSString *)displayName;
 @end
 
@@ -48,7 +54,7 @@
 
 
 
-@protocol BTCManagerServerDelegate <NSObject>
+@protocol BTCManagerServerDelegate <BTManagerDelegate>
 //Required method which prompts the server as to wether or not it should accept a connection from a controller
 //  You can either simply return yes; or you can use the displayName of the controller to prompt the user in some way
 - (void)manager:(BTCManager *)manager allowConnectionFromPeer:(NSString *)peerID withDisplayName:(NSString *)displayName response:(void(^)(BOOL response))responseBlock;

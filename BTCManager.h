@@ -20,6 +20,7 @@
 typedef enum {
     dataPacketTypeButton,
     dataPacketTypeJoyStick,
+    dataPacketTypeArbitrary,
 }DataPacketType;
 
 @interface BTCManager : NSObject <GKSessionDelegate> {
@@ -68,6 +69,8 @@ typedef enum {
 //You must use this to register all joysticks with the manager
 //  This will allow the joystick to properly send the Game the notification
 - (BOOL)registerJoystickWithManager:(BTCJoyStickController *)js;
+
+- (void)sendArbitraryData:(NSData *)data withIdentifier:(int)identifier reliably:(BOOL)reliable toPeers:(NSArray *)peers;
 
 - (void)sendNetworkPacketWithID:(DataPacketType)packetID withData:(void *)data ofLength:(size_t)length reliable:(BOOL)howtosend toPeers:(NSArray *)peers;
 @end

@@ -83,6 +83,18 @@
     _conectingServerID = serverId;
 }
 
+- (void)sendArbitraryData:(NSData *)data withIdentifier:(int)identifier reliably:(BOOL)reliable toPeers:(NSArray *)peers {
+    unsigned char completeArbitraryData[1024];
+    unsigned int headerPacketSize = (sizeof(int));
+    completeArbitraryData[0]=identifier;
+    
+    const void * dataBytes = [data bytes];
+    
+    memcpy(&completeArbitraryData[headerPacketSize], dataBytes, [data length]);
+    
+    [self sendNetworkPacketWithID:dataPacketTypeArbitrary withData:&completeArbitraryData ofLength:[data length] + headerPacketSize reliable:reliable toPeers:nil];
+}
+
 #pragma mark - UI elements
 - (BOOL)registerButtonWithManager:(BTCButton *)button {
     if ([button tag] != NSNotFound && ![_buttonTags containsObject:[NSNumber numberWithInt:[button tag]]]) {
@@ -199,14 +211,15 @@
 
 
 - (void)sendNetworkPacketWithID:(DataPacketType)packetID withData:(void *)data ofLength:(size_t)length reliable:(BOOL)howtosend toPeers:(NSArray *)peers {
+    
+    if (!peers && _connectedServerID)
+        peers = [NSArray arrayWithObject:_connectedServerID];
+    
     unsigned char networkPacket[1024];
     unsigned int headerPacketSize = (sizeof(int));
     networkPacket[0]=packetID;
     
     memcpy(&networkPacket[headerPacketSize], data, length);
-    
-    if (!peers && _connectedServerID)
-        peers = [NSArray arrayWithObject:_connectedServerID];
     
     if (peers) {
         
@@ -245,6 +258,24 @@
             
             if ([serverDelegate respondsToSelector:@selector(manager:joyStickMovedWithTag:distance:angle:fromController:withDisplayName:)])
                 [serverDelegate manager:self joyStickMovedWithTag:joyStickTag distance:distance angle:angle fromController:peerID withDisplayName:[s displayNameForPeer:peerID]];
+            break;
+        }
+        case dataPacketTypeArbitrary: {
+            int dataType = bytes[sizeof(DataPacketType)];
+            
+            void * adddressToStartReading = bytes + sizeof(DataPacketType) + sizeof(dataType);
+            unsigned long sizeOfArbitraryData = [data length] - (sizeof(dataPacketType) + sizeof(dataType));            
+            char movedBytes[sizeOfArbitraryData];
+
+            memmove(&movedBytes, adddressToStartReading, sizeOfArbitraryData);
+            NSData *arbitraryData = [NSData dataWithBytes:movedBytes length:sizeof(movedBytes)];
+            if (sessionMode == BTCConnectionTypeController) {    
+                if ([clientDelegate respondsToSelector:@selector(manager:recievedArbitraryData:ofType:fromPeer:withDisplayname:)])
+                    [clientDelegate manager:self recievedArbitraryData:arbitraryData ofType:dataType fromPeer:peerID withDisplayname:[s displayNameForPeer:peerID]];
+            } else {
+                if ([serverDelegate respondsToSelector:@selector(manager:recievedArbitraryData:ofType:fromPeer:withDisplayname:)])
+                    [serverDelegate manager:self recievedArbitraryData:arbitraryData ofType:dataType fromPeer:peerID withDisplayname:[s displayNameForPeer:peerID]];
+            }
         }
         default:
             break;
