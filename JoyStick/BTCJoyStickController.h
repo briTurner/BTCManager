@@ -17,7 +17,12 @@
     
 }
 @property (nonatomic, weak) BTCManager *manager;
-+ (id)joyStickWithTag:(int)tag andManager:(BTCManager *)m andFrame:(CGRect)f inView:(UIView *)v;
+
+//Returns a configured BTCJoyStick
+//  set tag in order to distinguish between multiple joysticks
+//  set manager to handle transfering data to game
+//  frame and view will determine position and size of joystick and the view it appears in
++ (id)joyStickWithTag:(int)tag manager:(BTCManager *)m frame:(CGRect)f inView:(UIView *)v;
 
 - (void)joyStickPositionUpdated:(JoyStickDataStruct)jsData;
 @end

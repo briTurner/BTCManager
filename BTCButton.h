@@ -12,5 +12,8 @@
 @interface BTCButton : UIButton
 
 @property (nonatomic, weak) BTCManager *manager;
-+ (id)buttonWithTag:(int)t andManager:(BTCManager *)m andFrame:(CGRect)f inView:(UIView *)view;
+
+//Custom constructor method for button
+//  tag is a unique id in order to distinguish one button from another
++ (id)buttonWithTag:(int)t manager:(BTCManager *)m frame:(CGRect)f inView:(UIView *)view;
 @end

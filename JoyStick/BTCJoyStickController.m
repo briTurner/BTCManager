@@ -21,7 +21,7 @@
 @synthesize manager;
 @synthesize viewFrame;
 
-+ (id)joyStickWithTag:(int)tag andManager:(BTCManager *)m andFrame:(CGRect)f inView:(UIView *)view {
++ (id)joyStickWithTag:(int)tag manager:(BTCManager *)m frame:(CGRect)f inView:(UIView *)view {
     BTCJoyStickController *joyStick = [[super allocWithZone:nil] initWithNibName:nil bundle:nil];
     [joyStick setViewFrame:f];
     [[joyStick view] setTag:tag];
@@ -34,7 +34,7 @@
 
 + (id)allocWithZone:(NSZone *)zone {
     NSLog(@"please use joyStickWithTag:andManager:andFrame:inView: to setup a BTCJoyStickVC correctly");
-    return [self joyStickWithTag:NSNotFound andManager:nil andFrame:CGRectZero inView:nil];
+    return [self joyStickWithTag:NSNotFound manager:nil frame:CGRectZero inView:nil];
 }
 
 - (void)loadView {

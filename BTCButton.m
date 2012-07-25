@@ -20,13 +20,10 @@
 @synthesize manager;
 
 
-+ (id)buttonWithTag:(int)t andManager:(BTCManager *)m andFrame:(CGRect)f inView:(UIView *)view {
++ (id)buttonWithTag:(int)t manager:(BTCManager *)m frame:(CGRect)f inView:(UIView *)view {
     BTCButton *button = [[super allocWithZone:nil] initWithFrame:f];
     [button setTag:t];
     if ([m registerButtonWithManager:button]) {
-        [button setBackgroundColor:[UIColor redColor]];
-        [button setFrame:f];
-        [button addTarget:button action:@selector(emptyAction) forControlEvents:UIControlEventTouchUpInside];
         [view addSubview:button];
     }
     return button;
@@ -34,7 +31,17 @@
 
 + (id)allocWithZone:(NSZone *)zone {
     NSLog(@"Please use buttonWithTag:andManager:andFrame:inView: in order to configure a BTButton correctly");
-    return [self buttonWithTag:NSNotFound andManager:nil andFrame:CGRectZero inView:nil];
+    return [super allocWithZone:zone];
+}
+
+- (id)initWithFrame:(CGRect)frame {
+    self = [super initWithFrame:frame];
+    if (self) {
+        [self setBackgroundColor:[UIColor redColor]];
+        [self addTarget:self action:@selector(emptyAction) forControlEvents:UIControlEventTouchUpInside];
+
+    }
+    return self;
 }
 
 - (void)sendAction:(SEL)action to:(id)target forEvent:(UIEvent *)event {

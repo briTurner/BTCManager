@@ -16,7 +16,7 @@
 @end
 
 
-@protocol BTCManagerClientDelegate <BTManagerDelegate>
+@protocol BTCManagerControllerDelegate <BTManagerDelegate>
 //This is required and will notify the controller when a server is available. You should present the 
 //  user with the servers display name and give them some way to chose to connect to the server. 
 - (void)manager:(BTCManager *)manager serverAvailableForConnection:(NSString *)serverID withDisplayName:(NSString *)displayName;
@@ -54,7 +54,7 @@
 
 
 
-@protocol BTCManagerServerDelegate <BTManagerDelegate>
+@protocol BTCManagerGameDelegate <BTManagerDelegate>
 //Required method which prompts the server as to wether or not it should accept a connection from a controller
 //  You can either simply return yes; or you can use the displayName of the controller to prompt the user in some way
 - (void)manager:(BTCManager *)manager allowConnectionFromPeer:(NSString *)peerID withDisplayName:(NSString *)displayName response:(void(^)(BOOL response))responseBlock;
