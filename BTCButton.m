@@ -48,10 +48,15 @@
     [super sendAction:action to:target forEvent:event];
     
     int buttonTag = [self tag];
+    
+    ButtonDataStruct buttonData;
+    buttonData.buttonID = buttonTag;
+    buttonData.state = ButtonStateUp;
+    
     if (!manager || buttonTag == NSNotFound) {
         NSLog(@"please set manager and tag before attempting to use BTButton");
     } else
-        [manager sendNetworkPacketWithID:dataPacketTypeButton withData:&buttonTag ofLength:sizeof(buttonTag) reliable:YES toPeers:nil];
+        [manager sendNetworkPacketWithID:dataPacketTypeButton withData:&buttonData ofLength:sizeof(buttonData) reliable:YES toPeers:nil];
 }
 
 

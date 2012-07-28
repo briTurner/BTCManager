@@ -21,6 +21,10 @@
     
     NSMutableArray *_joyStickTags;
     NSMutableArray *_buttonTags;
+    
+    NSMutableArray *_buttonPressBlocks;
+    NSMutableArray *_joystickMoveBlocks;
+    NSMutableArray *_arbitraryDataBlocks;
 }
 - (void)configureSession;
 
@@ -129,6 +133,34 @@
         NSLog(@"The BTCJoyStick could not be registered with the manager becuase the tag is either invalid, or already in use");
         return NO;
     }
+}
+
+- (void)unregisterJoystickWithManager:(BTCJoyStickController *)joystick {
+    if ([_joyStickTags containsObject:[NSNumber numberWithInt:[[joystick view] tag]]])
+        [_joyStickTags removeObject:[NSNumber numberWithInt:[[joystick view] tag]]];
+    else
+        NSLog(@"There are no buttons registered with that Tag");
+}
+
+- (void)registerButtonPressBlock:(void(^)(ButtonDataStruct buttonData, PeerData controllerData))buttonBlock {
+    if (!_buttonPressBlocks)
+        _buttonPressBlocks = [NSMutableArray array];
+    if (![_buttonPressBlocks containsObject:buttonBlock])
+        [_buttonPressBlocks addObject:buttonBlock];
+}
+
+- (void)registerJoystickMovedBlock:(void(^)(JoyStickDataStruct joystickData, PeerData controllerData))joystickBlock {
+    if (!_joystickMoveBlocks)
+        _joystickMoveBlocks = [NSMutableArray array];
+    if (![_joystickMoveBlocks containsObject:joystickBlock])
+        [_joystickMoveBlocks addObject:joystickBlock];
+}
+
+- (void)registerArbitraryDataRecievedBlock:(void(^)(ArbitraryDataStruct arbitraryData, PeerData controllerData))arbitraryDataBlock {
+    if (!_arbitraryDataBlocks)
+        _arbitraryDataBlocks = [NSMutableArray array];
+    if (![_arbitraryDataBlocks containsObject:arbitraryDataBlock])
+        [_arbitraryDataBlocks addObject:arbitraryDataBlock];
 }
 
 - (void)session:(GKSession *)s didReceiveConnectionRequestFromPeer:(NSString *)peerID {
@@ -249,20 +281,25 @@
     
     switch (dataPacketType) {
         case dataPacketTypeButton: {
-            int buttonTag = bytes[sizeof(DataPacketType)];
-            if ([gameDelegate respondsToSelector:@selector(manager:buttonPressedWithTag:fromController:withDisplayName:)])
-                [gameDelegate manager:self buttonPressedWithTag:buttonTag fromController:peerID withDisplayName:[s displayNameForPeer:peerID]];
+            ButtonDataStruct buttonData;
+            PeerData peer;
+            peer.ident = peerID;
+            peer.displayName = [s displayNameForPeer:peerID];
+            memmove(&buttonData, bytes + sizeof(dataPacketType), sizeof(ButtonDataStruct));
+            for (void(^buttonBlock)(ButtonDataStruct data, PeerData controllerData) in _buttonPressBlocks) {
+                buttonBlock(buttonData, peer);
+            }
             break;
         }
         case dataPacketTypeJoyStick: {
             JoyStickDataStruct joyStickData;
+            PeerData peer;
+            peer.ident = peerID;
+            peer.displayName = [s displayNameForPeer:peerID];
             memmove(&joyStickData, bytes + sizeof(dataPacketType), sizeof(JoyStickDataStruct));
-            int joyStickTag = joyStickData.joyStickID;
-            float angle = joyStickData.angle;
-            float distance = joyStickData.distance;
-            
-            if ([gameDelegate respondsToSelector:@selector(manager:joyStickMovedWithTag:distance:angle:fromController:withDisplayName:)])
-                [gameDelegate manager:self joyStickMovedWithTag:joyStickTag distance:distance angle:angle fromController:peerID withDisplayName:[s displayNameForPeer:peerID]];
+            for (void(^joystickBlock)(JoyStickDataStruct data, PeerData controllerData) in _joystickMoveBlocks) {
+                joystickBlock(joyStickData, peer);
+            }
             break;
         }
         case dataPacketTypeVibration: {
@@ -275,16 +312,21 @@
             void * adddressToStartReading = bytes + sizeof(DataPacketType) + sizeof(dataType);
             unsigned long sizeOfArbitraryData = [data length] - (sizeof(dataPacketType) + sizeof(dataType));            
             char movedBytes[sizeOfArbitraryData];
-
+            
             memmove(&movedBytes, adddressToStartReading, sizeOfArbitraryData);
-            NSData *arbitraryData = [NSData dataWithBytes:movedBytes length:sizeof(movedBytes)];
-            if (sessionMode == BTCConnectionTypeController) {    
-                if ([controllerDelegate respondsToSelector:@selector(manager:recievedArbitraryData:ofType:fromPeer:withDisplayname:)])
-                    [controllerDelegate manager:self recievedArbitraryData:arbitraryData ofType:dataType fromPeer:peerID withDisplayname:[s displayNameForPeer:peerID]];
-            } else {
-                if ([gameDelegate respondsToSelector:@selector(manager:recievedArbitraryData:ofType:fromPeer:withDisplayname:)])
-                    [gameDelegate manager:self recievedArbitraryData:arbitraryData ofType:dataType fromPeer:peerID withDisplayname:[s displayNameForPeer:peerID]];
-            }
+            NSData *arbitraryD = [NSData dataWithBytes:movedBytes length:sizeof(movedBytes)];
+            
+            ArbitraryDataStruct arbitraryData;
+            arbitraryData.data = arbitraryD;
+            arbitraryData.dataID = dataType;
+            
+            PeerData peerData;
+            peerData.ident = peerID;
+            peerData.displayName = [s displayNameForPeer:peerID];
+            
+            for (void(^arbiraryDataBlock)(ArbitraryDataStruct dataStruct, PeerData peerData) in _arbitraryDataBlocks) {
+                arbiraryDataBlock(arbitraryData, peerData);
+            }   
         }
         default:
             break;

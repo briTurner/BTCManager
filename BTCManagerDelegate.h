@@ -67,11 +67,4 @@
 - (void)manager:(BTCManager *)manager disconnectedFromController:(NSString *)controllerID withDisplayName:(NSString *)displayName;
 - (void)manager:(BTCManager *)manager controllerNoLongerAvailable:(NSString *)controllerID withDisplayName:(NSString *)displayName;
 
-//These methods are the real meat of the library
-//  the server will be notified when the controller presses a button or moves a joystick
-//  You will be notified of the button/joystick ID number as well as which peer sent the message.
-//  Use the peerID in order to figure out which controller sent the message if you allow multiplayer
-- (void)manager:(BTCManager *)manager buttonPressedWithTag:(int)buttonTag fromController:(NSString *)peerID withDisplayName:(NSString *)displayName;
-- (void)manager:(BTCManager *)manager joyStickMovedWithTag:(int)joystickTag distance:(float)distance angle:(float)angle fromController:(NSString *)controllerID withDisplayName:(NSString *)displayName;
-
 @end

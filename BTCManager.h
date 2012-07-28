@@ -76,6 +76,11 @@ typedef enum {
 //  If you do not use the custom constructor on BTCJoyStickController then you must manually register the joystick with the manager
 - (BOOL)registerJoystickWithManager:(BTCJoyStickController *)js;
 
+- (void)registerButtonPressBlock:(void(^)(ButtonDataStruct buttonData, PeerData controllerData))buttonBlock;
+
+- (void)registerJoystickMovedBlock:(void(^)(JoyStickDataStruct joystickData, PeerData controllerData))joystickBlock;
+
+- (void)registerArbitraryDataRecievedBlock:(void(^)(ArbitraryDataStruct arbitraryData, PeerData controllerData))arbitraryDataBlock;
 
 //Use this method to send any data to any device (game, or controller)
 //  Package the data in NSData
