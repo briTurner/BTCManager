@@ -9,15 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "BTCConstants.h"
 
-// DO NOT DO ANYTHING WITH THIS CLASS DIRECTLY
-// THIS IS ONLY A HELPER CLASS FOR BTCJoystickController
-
-@class BTCJoyStickController;
-
 @interface BTCJoyStickPadView : UIView {
     
 }
-@property (nonatomic, weak) BTCJoyStickController *controller;
 
 
 @end

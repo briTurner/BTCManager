@@ -11,7 +11,7 @@
 #import "BTCConstants.h"
 
 @class BTCButton;
-@class BTCJoyStickController;
+@class BTCJoyStickPadView;
 
 @protocol BTCManagerControllerDelegate;
 @protocol BTCManagerGameDelegate;
@@ -65,16 +65,6 @@ typedef enum {
 //Tells the controller to connect to the serverID passed as the argument
 //  If the connection is successful the controller will be notified with manager:connectedToServer:withDisplayName:
 - (void)connectToServer:(NSString *)serverId;
-
-
-//This will allow the button to properly send the Game the notification
-//  If you do not use the custom constructor on BTCButton then you must manually register the button with the manager
-- (BOOL)registerButtonWithManager:(BTCButton *)button;
-
-
-//This will allow the joystick to properly send the Game the notification
-//  If you do not use the custom constructor on BTCJoyStickController then you must manually register the joystick with the manager
-- (BOOL)registerJoystickWithManager:(BTCJoyStickController *)js;
 
 - (void)registerButtonPressBlock:(void(^)(ButtonDataStruct buttonData, PeerData controllerData))buttonBlock;
 

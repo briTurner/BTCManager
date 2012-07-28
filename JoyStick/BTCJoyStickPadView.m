@@ -8,7 +8,7 @@
 
 #import "BTCJoyStickPadView.h"
 #import "BTCJoyStickView.h"
-#import "BTCJoyStickController.h"
+#import "BTCManager.h"
 
 @interface BTCJoyStickPadView () {
     CGPoint joyStickOrigin;    
@@ -21,13 +21,13 @@
 @end
 
 @implementation BTCJoyStickPadView
-@synthesize controller;
 
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
     if (self) {
-        // Initialization code
+        [self setTag:NSNotFound];
+        
         [self setBackgroundColor:[UIColor clearColor]];
         
         CGSize joyStickSize = CGSizeMake(40, 40);
@@ -63,7 +63,8 @@
         
         JoyStickDataStruct joyStickData;
         joyStickData.joyStickID = [self tag];
-        
+        if (joyStickData.joyStickID != NSNotFound) {
+            
         float distanceOfPoint = 0;
         
         float angelOfPoint = [self angleBetweenPoints:joyStickOrigin andSecond:locationOfTouch];
@@ -83,7 +84,10 @@
         }
         joyStickData.angle = angelOfPoint;
         joyStickData.distance = distanceOfPoint;
-        [controller joyStickPositionUpdated:joyStickData];
+        [[BTCManager sharedManager] sendNetworkPacketWithID:dataPacketTypeJoyStick withData:&joyStickData ofLength:sizeof(joyStickData) reliable:NO toPeers:nil];
+        } else {
+            NSLog(@"This joystick does not have a proper tag.  Please set one either programatically or in IB");
+        }
     }
 }
 
@@ -98,24 +102,17 @@
             jsData.angle = 0;
             jsData.joyStickID = [self tag];
             
-            [controller joyStickPositionUpdated:jsData];
+            [[BTCManager sharedManager] sendNetworkPacketWithID:dataPacketTypeJoyStick withData:&jsData ofLength:sizeof(jsData) reliable:NO toPeers:nil];
         }];
     }
     selectedView = nil;
 }
 
-
-
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect
-{
+- (void)drawRect:(CGRect)rect {
     CGContextRef myContext = UIGraphicsGetCurrentContext();
     
     CGContextSetRGBFillColor(myContext, 0, 0, 1, 1);
     CGContextFillEllipseInRect(myContext, self.bounds);
-    // Drawing code
-    
 }
 
 #pragma mark - my math stuff

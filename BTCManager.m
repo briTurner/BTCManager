@@ -8,7 +8,7 @@
 
 #import "BTCManager.h"
 #import "BTCButton.h"
-#import "BTCJoyStickController.h"
+#import "BTCJoyStickPadView.h"
 #import "BTCManagerDelegate.h"
 #import <GameKit/GameKit.h>
 #import <AudioToolbox/AudioToolbox.h>
@@ -104,43 +104,7 @@
     [self sendNetworkPacketWithID:dataPacketTypeVibration withData:NULL ofLength:0 reliable:YES toPeers:peers];
 }
 
-#pragma mark - UI elements
-- (BOOL)registerButtonWithManager:(BTCButton *)button {
-    if ([button tag] != NSNotFound && ![_buttonTags containsObject:[NSNumber numberWithInt:[button tag]]]) {
-        [button setManager:self];
-        [_buttonTags addObject:[NSNumber numberWithInt:[button tag]]];
-        return YES;
-    } else {
-        NSLog(@"The BTButton could not be registered with the manager because the tag is either invalid, or already in use");
-        NSLog(@"button tag is %i and is already contained in the array %@", [button tag], _buttonTags);
-        return NO;
-    }
-}
-
-- (void)unregisterButtonWithmanager:(BTCButton *)button {
-    if ([_buttonTags containsObject:[NSNumber numberWithInt:[button tag]]])
-        [_buttonTags removeObject:[NSNumber numberWithInt:[button tag]]];
-    else
-        NSLog(@"There are no buttons registered with that Tag");
-}
-
-- (BOOL)registerJoystickWithManager:(BTCJoyStickController *)js {
-    if ([[js view] tag] != NSNotFound && ![_joyStickTags containsObject:[NSNumber numberWithInt:[[js view] tag]]]) {
-        [js setManager:self];
-        [_joyStickTags addObject:[NSNumber numberWithInt:[[js view] tag]]];
-        return YES;
-    } else {
-        NSLog(@"The BTCJoyStick could not be registered with the manager becuase the tag is either invalid, or already in use");
-        return NO;
-    }
-}
-
-- (void)unregisterJoystickWithManager:(BTCJoyStickController *)joystick {
-    if ([_joyStickTags containsObject:[NSNumber numberWithInt:[[joystick view] tag]]])
-        [_joyStickTags removeObject:[NSNumber numberWithInt:[[joystick view] tag]]];
-    else
-        NSLog(@"There are no buttons registered with that Tag");
-}
+#pragma mark - UI callbacks
 
 - (void)registerButtonPressBlock:(void(^)(ButtonDataStruct buttonData, PeerData controllerData))buttonBlock {
     if (!_buttonPressBlocks)
