@@ -13,9 +13,7 @@
 @class BTCButton;
 @class BTCJoyStickPadView;
 
-@protocol BTCManagerControllerDelegate;
-@protocol BTCManagerGameDelegate;
-
+typedef void(^ResponseBlock)(BOOL response);
 
 typedef enum {
     dataPacketTypeButton,
@@ -24,16 +22,36 @@ typedef enum {
     dataPacketTypeArbitrary,
 }DataPacketType;
 
+
+//Notes sent to controllers
+extern NSString * const BTCManagerNotificationFoundAvailableController;
+extern NSString * const BTCManagerNotificationConnectingToController;
+extern NSString * const BTCManagerNotificationConnectedToController;
+extern NSString * const BTCManagerNotificationDisconnectedFromController;
+extern NSString * const BTCManagerNotificationControllerUnavailable;
+//notes sent regarding peer controllers
+extern NSString * const BTCManagerNotificationConntedToPeerController;
+extern NSString * const BTCManagerNotificationDisconnectedFromPeerController;
+
+//Notes sent to servers
+extern NSString * const BTCManagerNotificationFoundAvailableServer;
+extern NSString * const BTCManagerNotificationConnectingToServer;
+extern NSString * const BTCManagerNotificationConnectedToServer;
+extern NSString * const BTCManagerNotificationDisconnectedFromServer;
+extern NSString * const BTCManagerNotificationServerUnavailable;
+
+
+extern NSString * const kBTCPeerID;
+extern NSString * const kBTCPeerDisplayName;
+
+
 @interface BTCManager : NSObject <GKSessionDelegate> {
-
+    NSString *sessionID;
+    BTCConnectionType sessionMode;
 }
-//This is the unique string used to identify your particular game/controller pairing. 
-//  This id needs to be common amoung your game and controllers, but unique from all over
-//  apps which may be using this library.  
-@property (nonatomic, strong) NSString *sessionID;
 
-//Set this to either controller or game depending on your use
-@property (nonatomic) BTCConnectionType sessionMode;
+- (void)configureManagerAsServerWithSessionID:(NSString *)sID connectionRequestBlock:(void(^)(NSString *peerID, NSString *displayName, ResponseBlock respBlock))cRequestBlock;
+- (void)configureManagerAsControllerWithSessionID:(NSString *)sID serverAvailableBlock:(void(^)(NSString *serverID, NSString *serverDisplayName))sAvailableBlock;
 
 //This is an optional name for the device (controller and server) 
 //  This is human readable identifier that will be passed with all delegate methods
@@ -42,8 +60,8 @@ typedef enum {
 
 
 //Delegates for manager.  Set yourself as either the controller, or the game delegate
-@property (nonatomic, weak) id <BTCManagerControllerDelegate> controllerDelegate;
-@property (nonatomic, weak) id <BTCManagerGameDelegate> gameDelegate;
+//@property (nonatomic, weak) id <BTCManagerControllerDelegate> controllerDelegate;
+//@property (nonatomic, weak) id <BTCManagerGameDelegate> gameDelegate;
 
 //Use this to get an instance of the manager
 + (id)sharedManager;

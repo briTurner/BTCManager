@@ -9,7 +9,6 @@
 #import "BTCManager.h"
 #import "BTCButton.h"
 #import "BTCJoyStickPadView.h"
-#import "BTCManagerDelegate.h"
 #import <GameKit/GameKit.h>
 #import <AudioToolbox/AudioToolbox.h>
 
@@ -25,15 +24,33 @@
     NSMutableArray *_buttonPressBlocks;
     NSMutableArray *_joystickMoveBlocks;
     NSMutableArray *_arbitraryDataBlocks;
+    
+    void(^connectionRequestBlock)(NSString *peerID, NSString *displayName, ResponseBlock respBlock);
+    void(^serverAvailableBlock)(NSString *serverID, NSString *serverDisplayName);
 }
 - (void)configureSession;
 
 @end
 
+NSString * const BTCManagerNotificationFoundAvailableController = @"BTCManagerNotificationControllerAvailableForConnection";
+NSString * const BTCManagerNotificationConnectingToController = @"BTCManagerNotificationConnectingToController";
+NSString * const BTCManagerNotificationConnectedToController = @"BTCManagerNotificationConnectedToController";
+NSString * const BTCManagerNotificationDisconnectedFromController = @"BTCManagerNotificationDisconnectedFromController";
+NSString * const BTCManagerNotificationControllerUnavailable = @"BTCManagerNotificationControllerUnavailable";
+
+NSString * const BTCManagerNotificationConntedToPeerController = @"BTCManagerNotificationConntedToPeerController";
+NSString * const BTCManagerNotificationDisconnectedFromPeerController = @"BTCManagerNotificationDisconnectedFromPeerController";
+
+NSString * const BTCManagerNotificationFoundAvailableServer = @"BTCManagerNotificationServerAvailableForConnection";
+NSString * const BTCManagerNotificationConnectingToServer = @"BTCManagerNotificationConnectingToServer";
+NSString * const BTCManagerNotificationConnectedToServer = @"BTCManagerNotificationConnectedToServer";
+NSString * const BTCManagerNotificationDisconnectedFromServer = @"BTCManagerNotificationDisconnectedFromServer";
+NSString * const BTCManagerNotificationServerUnavailable = @"BTCManagerNotificationServerUnavailable";
+
+NSString * const kBTCPeerID = @"kBTCPeerID";
+NSString * const kBTCPeerDisplayName = @"kBTCPeerDisplayName";
+
 @implementation BTCManager
-@synthesize sessionID;
-@synthesize sessionMode;
-@synthesize controllerDelegate, gameDelegate;
 @synthesize displayName;
 
 
@@ -58,6 +75,19 @@
     }
     return self;
 }
+
+- (void)configureManagerAsServerWithSessionID:(NSString *)sID connectionRequestBlock:(void(^)(NSString *peerID, NSString *displayName, ResponseBlock respBlock))cRequestBlock {
+    sessionID = sID;
+    sessionMode = BTCConnectionTypeGame;
+    connectionRequestBlock = [cRequestBlock copy];
+}
+
+- (void)configureManagerAsControllerWithSessionID:(NSString *)sID serverAvailableBlock:(void(^)(NSString *serverID, NSString *serverDisplayName))sAvailableBlock {
+    sessionID = sID;
+    sessionMode = BTCConnectionTypeController;
+    serverAvailableBlock = [sAvailableBlock copy];
+}
+
 
 - (void)configureSession {
     if (sessionID) {
@@ -84,6 +114,7 @@
 }
 
 - (void)connectToServer:(NSString *)serverId {
+    NSLog(@"attempting connection to server %@", [_session displayNameForPeer:serverId]);
     [_session connectToPeer:serverId withTimeout:20];
     _conectingServerID = serverId;
 }
@@ -127,9 +158,11 @@
         [_arbitraryDataBlocks addObject:arbitraryDataBlock];
 }
 
+#pragma mark - GKSession Methods
+
 - (void)session:(GKSession *)s didReceiveConnectionRequestFromPeer:(NSString *)peerID {
     NSLog(@"Did recieve connection request from %@", [s displayNameForPeer:peerID]);
-    [gameDelegate manager:self allowConnectionFromPeer:peerID withDisplayName:[s displayNameForPeer:peerID] response:^(BOOL response) {
+    connectionRequestBlock(peerID, [s displayNameForPeer:peerID], ^(BOOL response){
         if (response) {
             NSError *error = nil;
             if (![s acceptConnectionFromPeer:peerID error:&error]) {
@@ -138,29 +171,30 @@
         } else {
             [s denyConnectionFromPeer:peerID];
         }
-    }];
+    });
 }
 
 - (void)session:(GKSession *)s peer:(NSString *)peerID didChangeState:(GKPeerConnectionState)state {
+    NSNotificationCenter *noteCenter = [NSNotificationCenter defaultCenter];
+    NSDictionary *userData = [NSDictionary dictionaryWithObjectsAndKeys:peerID, kBTCPeerID, [s displayNameForPeer:peerID], kBTCPeerDisplayName, nil];
     switch (state) {
         case GKPeerStateAvailable:
             NSLog(@"%@ available", [s displayNameForPeer:peerID]);
             if (sessionMode == BTCConnectionTypeController) {
-                if ([controllerDelegate respondsToSelector:@selector(manager:serverAvailableForConnection:withDisplayName:)])
-                    [controllerDelegate manager:self serverAvailableForConnection:peerID withDisplayName:[s displayNameForPeer:peerID]];
+                serverAvailableBlock(peerID, [s displayNameForPeer:peerID]);
             } else {
-                if ([gameDelegate respondsToSelector:@selector(manager:controllerAvailableForConnection:withDisplayName:)])
-                    [gameDelegate manager:self controllerAvailableForConnection:peerID withDisplayName:[s displayNameForPeer:peerID]];
+                NSNotification *note = [NSNotification notificationWithName:BTCManagerNotificationFoundAvailableController object:nil userInfo:userData];
+                [noteCenter postNotification:note];
             }
             break;
         case GKPeerStateConnecting:
             NSLog(@"%@ connecting", [s displayNameForPeer:peerID]);
             if (sessionMode == BTCConnectionTypeController) {
-                if ([controllerDelegate respondsToSelector:@selector(manager:connectingToServer:withDisplayName:)])
-                    [controllerDelegate manager:self connectingToServer:peerID withDisplayName:[s displayNameForPeer:peerID]];
+                NSNotification *note = [NSNotification notificationWithName:BTCManagerNotificationConnectingToServer object:nil userInfo:userData];
+                [noteCenter postNotification:note];
             } else {
-                if ([gameDelegate respondsToSelector:@selector(manager:connectingToController:withDisplayName:)])
-                    [gameDelegate manager:self connectingToController:peerID withDisplayName:[s displayNameForPeer:peerID]];
+                NSNotification *note = [NSNotification notificationWithName:BTCManagerNotificationConnectingToController object:nil userInfo:userData];
+                [noteCenter postNotification:note];
             }
             break;
         case GKPeerStateConnected:
@@ -169,15 +203,15 @@
                 if ([peerID isEqualToString:_conectingServerID]) {
                     _connectedServerID = _conectingServerID;
                     _conectingServerID = nil;
-                    if ([controllerDelegate respondsToSelector:@selector(manager:connectedToServer:withDisplayName:)])
-                        [controllerDelegate manager:self connectedToServer:peerID withDisplayName:[s displayNameForPeer:peerID]];
+                    NSNotification *note = [NSNotification notificationWithName:BTCManagerNotificationConnectedToServer object:nil userInfo:userData];
+                    [noteCenter postNotification:note];
                 } else {
-                    if ([controllerDelegate respondsToSelector:@selector(manager:peerControllerConnected:withDisplayName:)])
-                        [controllerDelegate manager:self peerControllerConnected:peerID withDisplayName:[s displayNameForPeer:peerID]];
+                    NSNotification *note = [NSNotification notificationWithName:BTCManagerNotificationConntedToPeerController object:nil userInfo:userData];
+                    [noteCenter postNotification:note];
                 }
             } else {
-                if ([gameDelegate respondsToSelector:@selector(manager:connectedToController:withDisplayName:)])
-                    [gameDelegate manager:self connectedToController:peerID withDisplayName:[s displayNameForPeer:peerID]];
+                NSNotification *note = [NSNotification notificationWithName:BTCManagerNotificationConnectedToController object:nil userInfo:userData];
+                [noteCenter postNotification:note];
             }
             break;
         case GKPeerStateDisconnected:
@@ -185,29 +219,35 @@
             if (sessionMode == BTCConnectionTypeController) {
                 if ([peerID isEqualToString:_conectingServerID]) {
                     _connectedServerID = nil;
-                    if ([controllerDelegate respondsToSelector:@selector(manager:disconnectedFromServer:withDisplayName:)])
-                        [controllerDelegate manager:self disconnectedFromServer:peerID withDisplayName:[s displayNameForPeer:peerID]];
-                } else
-                    if ([controllerDelegate respondsToSelector:@selector(manager:peerControllerDisconnected:withDisplayName:)])
-                        [controllerDelegate manager:self peerControllerDisconnected:peerID withDisplayName:[s displayNameForPeer:peerID]];
+                    NSNotification *note = [NSNotification notificationWithName:BTCManagerNotificationDisconnectedFromServer object:nil userInfo:userData];
+                    [noteCenter postNotification:note];
+                } else {
+                    NSNotification *note = [NSNotification notificationWithName:BTCManagerNotificationDisconnectedFromPeerController object:nil userInfo:userData];
+                    [noteCenter postNotification:note];
+                }
             } else {
-                if ([gameDelegate respondsToSelector:@selector(manager:disconnectedFromController:withDisplayName:)])
-                    [gameDelegate manager:self disconnectedFromController:peerID withDisplayName:[s displayNameForPeer:peerID]];
+                NSNotification *note = [NSNotification notificationWithName:BTCManagerNotificationDisconnectedFromController object:nil userInfo:userData];
+                [noteCenter postNotification:note];
             }
             break;
         case GKPeerStateUnavailable:
             NSLog(@"%@ unavailable", [s displayNameForPeer:peerID]);
             if (sessionMode == BTCConnectionTypeController) {
-                if ([controllerDelegate respondsToSelector:@selector(manager:serverNoLongerAvailable:withDisplayName:)])
-                    [controllerDelegate manager:self serverNoLongerAvailable:peerID withDisplayName:[s displayNameForPeer:peerID]];
+                NSNotification *note = [NSNotification notificationWithName:BTCManagerNotificationServerUnavailable object:nil userInfo:userData];
+                [noteCenter postNotification:note];
             } else {
-                if ([gameDelegate respondsToSelector:@selector(manager:controllerNoLongerAvailable:withDisplayName:)])
-                    [gameDelegate manager:self controllerNoLongerAvailable:peerID withDisplayName:[s displayNameForPeer:peerID]];
+                NSNotification *note = [NSNotification notificationWithName:BTCManagerNotificationControllerUnavailable object:nil userInfo:userData];
+                [noteCenter postNotification:note];
             }
             break;
         default:
+            NSLog(@"%@ triggered session mode change but was not caught", [s displayNameForPeer:peerID]);
             break;
     }
+}
+
+- (void)session:(GKSession *)session connectionWithPeerFailed:(NSString *)peerID withError:(NSError *)error {
+    NSLog(@"connection with peer %@ failed with error %@", [session displayNameForPeer:peerID], [error localizedDescription]);
 }
 
 
@@ -225,16 +265,10 @@
     if (peers) {
         
         NSData *packet = [NSData dataWithBytes:networkPacket length:(length+headerPacketSize)];
-        if (howtosend == YES) {
-            if (![_session sendData:packet toPeers:peers withDataMode:GKSendDataReliable error:nil]) {
-                NSLog(@"failed to send data reliably");
+
+            if (![_session sendData:packet toPeers:peers withDataMode:howtosend == YES ? GKSendDataReliable : GKSendDataUnreliable error:nil]) {
+                NSLog(@"failed to send data");
             }
-        }
-        else if (howtosend == NO) {
-            if (![_session sendData:packet toPeers:peers withDataMode:GKSendDataUnreliable error:nil]) {
-                NSLog(@"failed to send data unreliably");
-            }
-        }
     }
 }
 
@@ -274,7 +308,7 @@
             int dataType = bytes[sizeof(DataPacketType)];
             
             void * adddressToStartReading = bytes + sizeof(DataPacketType) + sizeof(dataType);
-            unsigned long sizeOfArbitraryData = [data length] - (sizeof(dataPacketType) + sizeof(dataType));            
+            unsigned long sizeOfArbitraryData = [data length] - (sizeof(dataPacketType) + sizeof(dataType));
             char movedBytes[sizeOfArbitraryData];
             
             memmove(&movedBytes, adddressToStartReading, sizeOfArbitraryData);
@@ -290,7 +324,7 @@
             
             for (void(^arbiraryDataBlock)(ArbitraryDataStruct dataStruct, PeerData peerData) in _arbitraryDataBlocks) {
                 arbiraryDataBlock(arbitraryData, peerData);
-            }   
+            }
         }
         default:
             break;
