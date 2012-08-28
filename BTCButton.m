@@ -12,7 +12,8 @@
 
 @interface BTCButton ()
 
-- (void)emptyAction;
+- (void)touchUp:(id)sender;
+- (void)touchDown:(id)sender;
 
 @end
 
@@ -22,7 +23,8 @@
     self = [super initWithFrame:frame];
     if (self) {
         [self setBackgroundColor:[UIColor redColor]];
-        [self addTarget:self action:@selector(emptyAction) forControlEvents:UIControlEventTouchUpInside];
+        [self addTarget:self action:@selector(touchUp:) forControlEvents:UIControlEventTouchUpInside];
+        [self addTarget:self action:@selector(touchDown:) forControlEvents:UIControlEventTouchDown];
         [self setTag:NSNotFound];
     }
     return self;
@@ -31,14 +33,15 @@
 - (id)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
     if (self) {
-        NSLog(@"Make sure you are setting the tag for all buttons instanciated through IB");
-        [self addTarget:self action:@selector(emptyAction) forControlEvents:UIControlEventTouchUpInside];
+        if ([self tag] == 0)
+            NSLog(@"Make sure you are setting the tag for all buttons instanciated through IB");
+        [self addTarget:self action:@selector(touchUp:) forControlEvents:UIControlEventTouchUpInside];
+        [self addTarget:self action:@selector(touchDown:) forControlEvents:UIControlEventTouchDown];
     }
     return self;
 }
 
-- (void)sendAction:(SEL)action to:(id)target forEvent:(UIEvent *)event {
-    [super sendAction:action to:target forEvent:event];
+- (void)touchUp:(id)sender {
     int buttonTag = [self tag];
     
     if (buttonTag != NSNotFound) {
@@ -47,15 +50,28 @@
         buttonData.buttonID = buttonTag;
         buttonData.state = ButtonStateUp;
         
-        [[BTCManager sharedManager] sendNetworkPacketWithID:dataPacketTypeButton withData:&buttonData ofLength:sizeof(buttonData) reliable:YES toPeers:nil];
+        [[BTCManager sharedManager] sendNetworkPacketWithID:DataPacketTypeButton withData:&buttonData ofLength:sizeof(buttonData) reliable:YES toPeers:nil];
     } else {
         NSLog(@"Please set the buttons tag before attempting to use. You can do this programatically or in IB");
     }
+    
 }
 
-
-
-- (void)emptyAction {
+- (void)touchDown:(id)sender {
+    int buttonTag = [self tag];
+    
+    if (buttonTag != NSNotFound) {
+        
+        ButtonDataStruct buttonData;
+        buttonData.buttonID = buttonTag;
+        buttonData.state = ButtonStateDown;
+        
+        [[BTCManager sharedManager] sendNetworkPacketWithID:DataPacketTypeButton withData:&buttonData ofLength:sizeof(buttonData) reliable:YES toPeers:nil];
+    } else {
+        NSLog(@"Please set the buttons tag before attempting to use. You can do this programatically or in IB");
+    }
+    
 }
+
 
 @end

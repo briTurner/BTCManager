@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "BTCConstants.h"
 
-@interface BTCJoyStickPadView : UIView {
+@interface BTCJoyStickView : UIView {
     
 }
 

@@ -11,7 +11,7 @@
 // DO NOT DO ANYTHING WITH THIS CLASS DIRECTLY
 // THIS IS ONLY A HELPER CLASS FOR BTCJoystickController
 
-@interface BTCJoyStickView : UIView {
+@interface BTCJoyStickThumbView : UIView {
 @private
     
 }

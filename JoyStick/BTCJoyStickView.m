@@ -6,21 +6,21 @@
 //  Copyright 2011 Apple Inc. All rights reserved.
 //
 
-#import "BTCJoyStickPadView.h"
 #import "BTCJoyStickView.h"
+#import "BTCJoyStickThumbView.h"
 #import "BTCManager.h"
 
-@interface BTCJoyStickPadView () {
+@interface BTCJoyStickView () {
     CGPoint joyStickOrigin;    
     
-    BTCJoyStickView *joyStickView;
+    BTCJoyStickThumbView *joyStickView;
     
     UIView *selectedView;
 }
 
 @end
 
-@implementation BTCJoyStickPadView
+@implementation BTCJoyStickView
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -31,7 +31,22 @@
         [self setBackgroundColor:[UIColor clearColor]];
         
         CGSize joyStickSize = CGSizeMake(40, 40);
-        joyStickView = [[BTCJoyStickView alloc] initWithFrame:CGRectMake(joyStickOrigin.x - joyStickSize.width/2, joyStickOrigin.y - joyStickSize.height/2, joyStickSize.width, joyStickSize.height)];
+        joyStickView = [[BTCJoyStickThumbView alloc] initWithFrame:CGRectMake(joyStickOrigin.x - joyStickSize.width/2, joyStickOrigin.y - joyStickSize.height/2, joyStickSize.width, joyStickSize.height)];
+        
+        [self addSubview:joyStickView];
+    }
+    return self;
+}
+
+- (id)initWithCoder:(NSCoder *)aDecoder {
+    self = [super initWithCoder:aDecoder];
+    if (self) {
+        NSLog(@"Make sure you are setting the tag for all joysticks instanciated through IB");
+        
+        [self setBackgroundColor:[UIColor clearColor]];
+        
+        CGSize joyStickSize = CGSizeMake(40, 40);
+        joyStickView = [[BTCJoyStickThumbView alloc] initWithFrame:CGRectMake(joyStickOrigin.x - joyStickSize.width/2, joyStickOrigin.y - joyStickSize.height/2, joyStickSize.width, joyStickSize.height)];
         
         [self addSubview:joyStickView];
     }
@@ -84,7 +99,7 @@
         }
         joyStickData.angle = angelOfPoint;
         joyStickData.distance = distanceOfPoint;
-        [[BTCManager sharedManager] sendNetworkPacketWithID:dataPacketTypeJoyStick withData:&joyStickData ofLength:sizeof(joyStickData) reliable:NO toPeers:nil];
+        [[BTCManager sharedManager] sendNetworkPacketWithID:DataPacketTypeJoyStick withData:&joyStickData ofLength:sizeof(joyStickData) reliable:NO toPeers:nil];
         } else {
             NSLog(@"This joystick does not have a proper tag.  Please set one either programatically or in IB");
         }
@@ -102,7 +117,7 @@
             jsData.angle = 0;
             jsData.joyStickID = [self tag];
             
-            [[BTCManager sharedManager] sendNetworkPacketWithID:dataPacketTypeJoyStick withData:&jsData ofLength:sizeof(jsData) reliable:NO toPeers:nil];
+            [[BTCManager sharedManager] sendNetworkPacketWithID:DataPacketTypeJoyStick withData:&jsData ofLength:sizeof(jsData) reliable:NO toPeers:nil];
         }];
     }
     selectedView = nil;

@@ -6,10 +6,10 @@
 //  Copyright 2011 Apple Inc. All rights reserved.
 //
 
-#import "BTCJoyStickView.h"
+#import "BTCJoyStickThumbView.h"
 
 
-@implementation BTCJoyStickView
+@implementation BTCJoyStickThumbView
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -21,10 +21,10 @@
 }
 
 - (void)drawRect:(CGRect)rect {
- CGContextRef myContext = UIGraphicsGetCurrentContext();
- 
- CGContextSetRGBFillColor(myContext, 1, 0, 0, 1);
- CGContextFillEllipseInRect(myContext, self.bounds);
+    CGContextRef myContext = UIGraphicsGetCurrentContext();
+    
+    CGContextSetRGBFillColor(myContext, 1, 0, 0, 1);
+    CGContextFillEllipseInRect(myContext, self.bounds);
 }
 
 @end

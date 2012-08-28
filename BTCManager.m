@@ -8,11 +8,14 @@
 
 #import "BTCManager.h"
 #import "BTCButton.h"
-#import "BTCJoyStickPadView.h"
+#import "BTCJoyStickView.h"
 #import <GameKit/GameKit.h>
 #import <AudioToolbox/AudioToolbox.h>
 
 @interface BTCManager () {
+    NSString *sessionID;
+    BTCConnectionType sessionMode;
+    
     GKSession *_session;
     
     NSString *_conectingServerID;
@@ -76,7 +79,7 @@ NSString * const kBTCPeerDisplayName = @"kBTCPeerDisplayName";
     return self;
 }
 
-- (void)configureManagerAsServerWithSessionID:(NSString *)sID connectionRequestBlock:(void(^)(NSString *peerID, NSString *displayName, ResponseBlock respBlock))cRequestBlock {
+- (void)configureManagerAsGameWithSessionID:(NSString *)sID connectionRequestBlock:(void(^)(NSString *peerID, NSString *displayName, ResponseBlock respBlock))cRequestBlock {
     sessionID = sID;
     sessionMode = BTCConnectionTypeGame;
     connectionRequestBlock = [cRequestBlock copy];
@@ -88,7 +91,6 @@ NSString * const kBTCPeerDisplayName = @"kBTCPeerDisplayName";
     serverAvailableBlock = [sAvailableBlock copy];
 }
 
-
 - (void)configureSession {
     if (sessionID) {
         GKSessionMode sesMode = sessionMode == BTCConnectionTypeController ? GKSessionModeClient : GKSessionModeServer;
@@ -96,7 +98,7 @@ NSString * const kBTCPeerDisplayName = @"kBTCPeerDisplayName";
         [_session setDataReceiveHandler:self withContext:nil];
         [_session setDelegate:self];
     } else
-        NSLog(@"Make sure you set session id and session mode before trying to use manager");
+        NSLog(@"Please run one of the configureManager methods before attempting to use this class");
 }
 
 - (void)startSession {
@@ -114,7 +116,6 @@ NSString * const kBTCPeerDisplayName = @"kBTCPeerDisplayName";
 }
 
 - (void)connectToServer:(NSString *)serverId {
-    NSLog(@"attempting connection to server %@", [_session displayNameForPeer:serverId]);
     [_session connectToPeer:serverId withTimeout:20];
     _conectingServerID = serverId;
 }
@@ -128,11 +129,11 @@ NSString * const kBTCPeerDisplayName = @"kBTCPeerDisplayName";
     
     memcpy(&completeArbitraryData[headerPacketSize], dataBytes, [data length]);
     
-    [self sendNetworkPacketWithID:dataPacketTypeArbitrary withData:&completeArbitraryData ofLength:[data length] + headerPacketSize reliable:reliable toPeers:nil];
+    [self sendNetworkPacketWithID:DataPacketTypeArbitrary withData:&completeArbitraryData ofLength:[data length] + headerPacketSize reliable:reliable toPeers:nil];
 }
 
 - (void)vibrateControllers:(NSArray *)peers {
-    [self sendNetworkPacketWithID:dataPacketTypeVibration withData:NULL ofLength:0 reliable:YES toPeers:peers];
+    [self sendNetworkPacketWithID:DataPacketTypeVibration withData:NULL ofLength:0 reliable:YES toPeers:peers];
 }
 
 #pragma mark - UI callbacks
@@ -278,7 +279,7 @@ NSString * const kBTCPeerDisplayName = @"kBTCPeerDisplayName";
     
     
     switch (dataPacketType) {
-        case dataPacketTypeButton: {
+        case DataPacketTypeButton: {
             ButtonDataStruct buttonData;
             PeerData peer;
             peer.ident = peerID;
@@ -289,7 +290,7 @@ NSString * const kBTCPeerDisplayName = @"kBTCPeerDisplayName";
             }
             break;
         }
-        case dataPacketTypeJoyStick: {
+        case DataPacketTypeJoyStick: {
             JoyStickDataStruct joyStickData;
             PeerData peer;
             peer.ident = peerID;
@@ -300,11 +301,11 @@ NSString * const kBTCPeerDisplayName = @"kBTCPeerDisplayName";
             }
             break;
         }
-        case dataPacketTypeVibration: {
+        case DataPacketTypeVibration: {
             AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
             break;
         }
-        case dataPacketTypeArbitrary: {
+        case DataPacketTypeArbitrary: {
             int dataType = bytes[sizeof(DataPacketType)];
             
             void * adddressToStartReading = bytes + sizeof(DataPacketType) + sizeof(dataType);

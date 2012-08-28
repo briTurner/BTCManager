@@ -11,16 +11,16 @@
 #import "BTCConstants.h"
 
 @class BTCButton;
-@class BTCJoyStickPadView;
+@class BTCJoyStickView;
 
 typedef void(^ResponseBlock)(BOOL response);
 
 typedef enum {
-    dataPacketTypeButton,
-    dataPacketTypeJoyStick,
-    dataPacketTypeVibration,
-    dataPacketTypeArbitrary,
-}DataPacketType;
+    DataPacketTypeButton,
+    DataPacketTypeJoyStick,
+    DataPacketTypeVibration,
+    DataPacketTypeArbitrary,
+} DataPacketType;
 
 
 //Notes sent to controllers
@@ -29,7 +29,7 @@ extern NSString * const BTCManagerNotificationConnectingToController;
 extern NSString * const BTCManagerNotificationConnectedToController;
 extern NSString * const BTCManagerNotificationDisconnectedFromController;
 extern NSString * const BTCManagerNotificationControllerUnavailable;
-//notes sent regarding peer controllers
+//Notes sent to controllers regarding peer controllers
 extern NSString * const BTCManagerNotificationConntedToPeerController;
 extern NSString * const BTCManagerNotificationDisconnectedFromPeerController;
 
@@ -46,30 +46,37 @@ extern NSString * const kBTCPeerDisplayName;
 
 
 @interface BTCManager : NSObject <GKSessionDelegate> {
-    NSString *sessionID;
-    BTCConnectionType sessionMode;
+
 }
-
-- (void)configureManagerAsServerWithSessionID:(NSString *)sID connectionRequestBlock:(void(^)(NSString *peerID, NSString *displayName, ResponseBlock respBlock))cRequestBlock;
-- (void)configureManagerAsControllerWithSessionID:(NSString *)sID serverAvailableBlock:(void(^)(NSString *serverID, NSString *serverDisplayName))sAvailableBlock;
-
 //This is an optional name for the device (controller and server) 
-//  This is human readable identifier that will be passed with all delegate methods
-//  This is optional, and if left blank will default to the devices name (ie: "Brian Turner's iPhone 4")
+//  This is human readable identifier that will be passed with all notes and blocks
+//  This is optional, and if left blank it will default to the devices name (ie: "Brian Turner's iPhone 4")
 @property (nonatomic, strong) NSString *displayName;
 
-
-//Delegates for manager.  Set yourself as either the controller, or the game delegate
-//@property (nonatomic, weak) id <BTCManagerControllerDelegate> controllerDelegate;
-//@property (nonatomic, weak) id <BTCManagerGameDelegate> gameDelegate;
-
-//Use this to get an instance of the manager
+//Use this to get the instance of the manager
 + (id)sharedManager;
+
+//One of the following two methods must be run before attempting to use the Datamanager for the first time
+
+//SessionID - unique id for your controller/game pair.  this must be the same across all controllers and games
+//   but must be unique from any other game/server pair
+//ConnectionRequestBlock - this block will be called every time a controller attempts to connect to this server
+//   the connection block takes three arguemnts, the id of the controller, the display name
+//   of the controller and a response block. The response block is called after the server has
+//   decided to accept or reject the connection
+- (void)configureManagerAsGameWithSessionID:(NSString *)sID connectionRequestBlock:(void(^)(NSString *peerID, NSString *displayName, ResponseBlock responseBlock))cRequestBlock;
+
+//SessionID - unique id for your controller/game pair.  this must be the same across all controllers and games
+//   but must be unique from any other game/server pair
+//ServerAvailableBlock - this block is called every time an available server is found
+//   it contains serverID and server display name as arguments
+- (void)configureManagerAsControllerWithSessionID:(NSString *)sID serverAvailableBlock:(void(^)(NSString *serverID, NSString *serverDisplayName))sAvailableBlock;
 
 
 //This will begin the process of looking for connections
 //  If registered as a game, you will begin looking for Controllers
 //  If registered as a controller, you will begin looking for Games
+//  Before this method can be successfully run, you must first run one of the two configureManager methods
 - (void)startSession;
 
 //This disconnects ALL current connections
@@ -93,14 +100,13 @@ extern NSString * const kBTCPeerDisplayName;
 //Use this method to send any data to any device (game, or controller)
 //  Package the data in NSData
 //  Be sure to pass a unique identifier specific to the data type in order to avoid confusion when then data is recieved
-//  Data can be passed either reliably or not reliably.  If set to reliable and the transmit fails, it will be attempted again until it succeeds
+//  Data can be passed either reliably or Unreliably.  If set to reliable and the transmit fails, it will be attempted again until it succeeds
 //  Provide an array of peerID's.  This will be used to determine who recieves the data
 - (void)sendArbitraryData:(NSData *)data withIdentifier:(int)identifier reliably:(BOOL)reliable toPeers:(NSArray *)peers;
 
 //Will make the controllers provided vibrate for .4 seocnds
 //  If the controller does not have a vibrating motor (iPod 2nd gen and before) nothing will happen
 - (void)vibrateControllers:(NSArray *)peers;
-
 
 //Do not call this method directly.  Instead, use sendArbitraryData:withIdentifier:reliably:toPeers
 - (void)sendNetworkPacketWithID:(DataPacketType)packetID withData:(void *)data ofLength:(size_t)length reliable:(BOOL)howtosend toPeers:(NSArray *)peers;
