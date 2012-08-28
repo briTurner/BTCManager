@@ -1,5 +1,5 @@
 //
-//  BTJoyStickView.h
+//  BTJoyStickPadView.h
 //  BTJoyStick
 //
 //  Created by Brian Turner on 1/28/11.
@@ -7,13 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BTCConstants.h"
 
-// DO NOT DO ANYTHING WITH THIS CLASS DIRECTLY
-// THIS IS ONLY A HELPER CLASS FOR BTCJoystickController
-
-@interface BTCJoyStickView : UIView {
-@private
+@interface BTCJoyStickPadView : UIView {
     
 }
+
 
 @end
