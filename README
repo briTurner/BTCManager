@@ -1,21 +1,15 @@
 Purpose of this project:
-    This library will allow you to quickly design a controller on the iphone or ipad, which will be able to control
-a game on a different ipad or iphone. This will make any iPad games with a multi player experience much nicer, as 
-you will be able to have one central/shared board (say, an iPad for example) and each player with get their own 
-controller (iPod/iPhones). 
-    This could also be used to allow the ipad/iphone running the game to be across the room plugged into the tv or 
-projector, while the user sits on the couch with a different iphone/ipod/ipad controlling the game.   
+    This library will allow you to quickly design a controller on the iphone or ipad, which will be able to control a game on a different ipad or iphone. This will make any iPad games with a multi player experience much nicer, as you will be able to have one central/shared board (say, an iPad for example) and each player with get their own controller (iPod/iPhones). 
+    This could also be used to allow the ipad/iphone running the game to be across the room plugged into the tv or projector, while the user sits on the couch with a different iphone/ipod/ipad controlling the game.   
 
     As of right now, the library supports:
         - multiple simultaneous controller connections
         - any number of joysticks per player
         - any number of buttons per player
-            - each button press sends a state which identifies when the button is pressed down, and then again when 
-              the button is released
+            - each button press sends a state which identifies when the button is pressed down, and then again when the button is released
         - sending of any arbitrary NSData object, which will be marked with an identifier in order to ensure to can be
             correctly identified and handled once the game receives it
-        - sending of a vibrate command to the controllers (for example, in the event that player 1 shot player 2, the 
-            game could command player 2's controller to vibrate. 
+        - sending of a vibrate command to the controllers (for example, in the event that player 1 shot player 2, the game could command player 2's controller to vibrate. 
 
 
 
@@ -30,12 +24,11 @@ IMPORTANT:
 How To:
    use sharedManager: to get the singleton instance of the BTCManager
    call one of the two available configureManagerAs**** methods in order to configure your game or controller. 
-        each of those methods comes with a block method which MUST be handled in order for a connection to be established
+        each of those methods comes with a block which MUST be handled in order for a connection to be established
    you must then call startSession for both the controller and the game. 
 
 
-keep in mind, you need to create a controller to send the commands, and a server to receive the commands.  You can wrap
-this all into a single universal app if you would like.  However, i would recommend making a dedicated controller app. 
+keep in mind, you need to create a controller to send the commands, and a server to receive the commands.  You can wrap this all into a single universal app if you would like.  However, i would recommend making a dedicated controller app. 
 
 
-the BTCManager.h file is fairly well documented.  Please refer to that, and the example projects. 
+the BTCManager.h file is fairly well documented.  Please refer to that, and the example projects. There is an example project for the controller, and the game.  Both must be used. 
