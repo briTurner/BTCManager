@@ -1,0 +1,4 @@
+IMPORTANT:
+    before you can use this library in your project you MUST add the frameworks GameKit and AudioTool box to the project.  
+    GameKit is used for assistance with connection and data transer. 
+    AudioToolbox is used to allow for the vibration commands to function
