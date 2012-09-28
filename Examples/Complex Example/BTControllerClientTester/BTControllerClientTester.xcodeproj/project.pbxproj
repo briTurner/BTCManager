@@ -1,0 +1,538 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		28D1439D15AE31F900FB27EF /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28D1439C15AE31F900FB27EF /* UIKit.framework */; };
+		28D1439F15AE31F900FB27EF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28D1439E15AE31F900FB27EF /* Foundation.framework */; };
+		28D143A115AE31F900FB27EF /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28D143A015AE31F900FB27EF /* CoreGraphics.framework */; };
+		28D143A315AE31F900FB27EF /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28D143A215AE31F900FB27EF /* CoreData.framework */; };
+		28D143A915AE31F900FB27EF /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 28D143A715AE31F900FB27EF /* InfoPlist.strings */; };
+		28D143AB15AE31F900FB27EF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 28D143AA15AE31F900FB27EF /* main.m */; };
+		28D143AF15AE31F900FB27EF /* BTCCAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 28D143AE15AE31F900FB27EF /* BTCCAppDelegate.m */; };
+		28D143B215AE31F900FB27EF /* BTControllerClientTester.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 28D143B015AE31F900FB27EF /* BTControllerClientTester.xcdatamodeld */; };
+		28D143BA15AE31F900FB27EF /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28D143B915AE31F900FB27EF /* SenTestingKit.framework */; };
+		28D143BB15AE31F900FB27EF /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28D1439C15AE31F900FB27EF /* UIKit.framework */; };
+		28D143BC15AE31F900FB27EF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28D1439E15AE31F900FB27EF /* Foundation.framework */; };
+		28D143BD15AE31F900FB27EF /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28D143A215AE31F900FB27EF /* CoreData.framework */; };
+		28D143C515AE31F900FB27EF /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 28D143C315AE31F900FB27EF /* InfoPlist.strings */; };
+		28D143C815AE31F900FB27EF /* BTControllerClientTesterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 28D143C715AE31F900FB27EF /* BTControllerClientTesterTests.m */; };
+		28D9EE3015AE355F001CCDE3 /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28D9EE2F15AE355F001CCDE3 /* GameKit.framework */; };
+		B105F6B016160071006DC367 /* BTCManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B105F6A716160071006DC367 /* BTCManager.m */; };
+		B105F6B116160071006DC367 /* BTCButton.m in Sources */ = {isa = PBXBuildFile; fileRef = B105F6AA16160071006DC367 /* BTCButton.m */; };
+		B105F6B216160071006DC367 /* BTCJoyStickThumbView.m in Sources */ = {isa = PBXBuildFile; fileRef = B105F6AD16160071006DC367 /* BTCJoyStickThumbView.m */; };
+		B105F6B316160071006DC367 /* BTCJoyStickView.m in Sources */ = {isa = PBXBuildFile; fileRef = B105F6AF16160071006DC367 /* BTCJoyStickView.m */; };
+		B18A933715BF3D2400CF3791 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B18A933615BF3D2400CF3791 /* AudioToolbox.framework */; };
+		B1CB30C415AE458C0058405A /* BTCCMainVC.m in Sources */ = {isa = PBXBuildFile; fileRef = B1CB30C215AE458C0058405A /* BTCCMainVC.m */; };
+		B1CB30C515AE458C0058405A /* BTCCMainVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = B1CB30C315AE458C0058405A /* BTCCMainVC.xib */; };
+		B1FE2E3C15AF6B060056FE40 /* BTCCConnectedVC.m in Sources */ = {isa = PBXBuildFile; fileRef = B1FE2E3A15AF6B060056FE40 /* BTCCConnectedVC.m */; };
+		B1FE2E3D15AF6B060056FE40 /* BTCCConnectedVC.m in Sources */ = {isa = PBXBuildFile; fileRef = B1FE2E3A15AF6B060056FE40 /* BTCCConnectedVC.m */; };
+		B1FE2E3E15AF6B060056FE40 /* BTCCConnectedVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = B1FE2E3B15AF6B060056FE40 /* BTCCConnectedVC.xib */; };
+		B1FE2E3F15AF6B060056FE40 /* BTCCConnectedVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = B1FE2E3B15AF6B060056FE40 /* BTCCConnectedVC.xib */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		28D143BE15AE31F900FB27EF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 28D1438F15AE31F900FB27EF /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 28D1439715AE31F900FB27EF;
+			remoteInfo = BTControllerClientTester;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		28D1439815AE31F900FB27EF /* BTControllerClientTester.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BTControllerClientTester.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		28D1439C15AE31F900FB27EF /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		28D1439E15AE31F900FB27EF /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		28D143A015AE31F900FB27EF /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		28D143A215AE31F900FB27EF /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		28D143A615AE31F900FB27EF /* BTControllerClientTester-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "BTControllerClientTester-Info.plist"; sourceTree = "<group>"; };
+		28D143A815AE31F900FB27EF /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		28D143AA15AE31F900FB27EF /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		28D143AC15AE31F900FB27EF /* BTControllerClientTester-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BTControllerClientTester-Prefix.pch"; sourceTree = "<group>"; };
+		28D143AD15AE31F900FB27EF /* BTCCAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BTCCAppDelegate.h; sourceTree = "<group>"; };
+		28D143AE15AE31F900FB27EF /* BTCCAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BTCCAppDelegate.m; sourceTree = "<group>"; };
+		28D143B115AE31F900FB27EF /* BTControllerClientTester.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = BTControllerClientTester.xcdatamodel; sourceTree = "<group>"; };
+		28D143B815AE31F900FB27EF /* BTControllerClientTesterTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BTControllerClientTesterTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		28D143B915AE31F900FB27EF /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		28D143C215AE31F900FB27EF /* BTControllerClientTesterTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "BTControllerClientTesterTests-Info.plist"; sourceTree = "<group>"; };
+		28D143C415AE31F900FB27EF /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		28D143C615AE31F900FB27EF /* BTControllerClientTesterTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BTControllerClientTesterTests.h; sourceTree = "<group>"; };
+		28D143C715AE31F900FB27EF /* BTControllerClientTesterTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BTControllerClientTesterTests.m; sourceTree = "<group>"; };
+		28D9EE2F15AE355F001CCDE3 /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
+		B105F6A516160071006DC367 /* BTCConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BTCConstants.h; sourceTree = "<group>"; };
+		B105F6A616160071006DC367 /* BTCManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BTCManager.h; sourceTree = "<group>"; };
+		B105F6A716160071006DC367 /* BTCManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BTCManager.m; sourceTree = "<group>"; };
+		B105F6A916160071006DC367 /* BTCButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BTCButton.h; sourceTree = "<group>"; };
+		B105F6AA16160071006DC367 /* BTCButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BTCButton.m; sourceTree = "<group>"; };
+		B105F6AC16160071006DC367 /* BTCJoyStickThumbView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BTCJoyStickThumbView.h; sourceTree = "<group>"; };
+		B105F6AD16160071006DC367 /* BTCJoyStickThumbView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BTCJoyStickThumbView.m; sourceTree = "<group>"; };
+		B105F6AE16160071006DC367 /* BTCJoyStickView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BTCJoyStickView.h; sourceTree = "<group>"; };
+		B105F6AF16160071006DC367 /* BTCJoyStickView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BTCJoyStickView.m; sourceTree = "<group>"; };
+		B18A933615BF3D2400CF3791 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		B1CB30C115AE458C0058405A /* BTCCMainVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = BTCCMainVC.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		B1CB30C215AE458C0058405A /* BTCCMainVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BTCCMainVC.m; sourceTree = "<group>"; };
+		B1CB30C315AE458C0058405A /* BTCCMainVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BTCCMainVC.xib; sourceTree = "<group>"; };
+		B1FE2E3915AF6B060056FE40 /* BTCCConnectedVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BTCCConnectedVC.h; sourceTree = "<group>"; };
+		B1FE2E3A15AF6B060056FE40 /* BTCCConnectedVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BTCCConnectedVC.m; sourceTree = "<group>"; };
+		B1FE2E3B15AF6B060056FE40 /* BTCCConnectedVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BTCCConnectedVC.xib; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		28D1439515AE31F900FB27EF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B18A933715BF3D2400CF3791 /* AudioToolbox.framework in Frameworks */,
+				28D9EE3015AE355F001CCDE3 /* GameKit.framework in Frameworks */,
+				28D1439D15AE31F900FB27EF /* UIKit.framework in Frameworks */,
+				28D1439F15AE31F900FB27EF /* Foundation.framework in Frameworks */,
+				28D143A115AE31F900FB27EF /* CoreGraphics.framework in Frameworks */,
+				28D143A315AE31F900FB27EF /* CoreData.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		28D143B415AE31F900FB27EF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				28D143BA15AE31F900FB27EF /* SenTestingKit.framework in Frameworks */,
+				28D143BB15AE31F900FB27EF /* UIKit.framework in Frameworks */,
+				28D143BC15AE31F900FB27EF /* Foundation.framework in Frameworks */,
+				28D143BD15AE31F900FB27EF /* CoreData.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		28D1438D15AE31F900FB27EF = {
+			isa = PBXGroup;
+			children = (
+				28D143A415AE31F900FB27EF /* BTControllerClientTester */,
+				28D143C015AE31F900FB27EF /* BTControllerClientTesterTests */,
+				28D1439B15AE31F900FB27EF /* Frameworks */,
+				28D1439915AE31F900FB27EF /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		28D1439915AE31F900FB27EF /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				28D1439815AE31F900FB27EF /* BTControllerClientTester.app */,
+				28D143B815AE31F900FB27EF /* BTControllerClientTesterTests.octest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		28D1439B15AE31F900FB27EF /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				B18A933615BF3D2400CF3791 /* AudioToolbox.framework */,
+				28D9EE2F15AE355F001CCDE3 /* GameKit.framework */,
+				28D1439C15AE31F900FB27EF /* UIKit.framework */,
+				28D1439E15AE31F900FB27EF /* Foundation.framework */,
+				28D143A015AE31F900FB27EF /* CoreGraphics.framework */,
+				28D143A215AE31F900FB27EF /* CoreData.framework */,
+				28D143B915AE31F900FB27EF /* SenTestingKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		28D143A415AE31F900FB27EF /* BTControllerClientTester */ = {
+			isa = PBXGroup;
+			children = (
+				B105F6A416160071006DC367 /* BTCManager */,
+				28D143AD15AE31F900FB27EF /* BTCCAppDelegate.h */,
+				28D143AE15AE31F900FB27EF /* BTCCAppDelegate.m */,
+				28D143B015AE31F900FB27EF /* BTControllerClientTester.xcdatamodeld */,
+				28D143A515AE31F900FB27EF /* Supporting Files */,
+				B1CB30C115AE458C0058405A /* BTCCMainVC.h */,
+				B1CB30C215AE458C0058405A /* BTCCMainVC.m */,
+				B1CB30C315AE458C0058405A /* BTCCMainVC.xib */,
+				B1FE2E3915AF6B060056FE40 /* BTCCConnectedVC.h */,
+				B1FE2E3A15AF6B060056FE40 /* BTCCConnectedVC.m */,
+				B1FE2E3B15AF6B060056FE40 /* BTCCConnectedVC.xib */,
+			);
+			path = BTControllerClientTester;
+			sourceTree = "<group>";
+		};
+		28D143A515AE31F900FB27EF /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				28D143A615AE31F900FB27EF /* BTControllerClientTester-Info.plist */,
+				28D143A715AE31F900FB27EF /* InfoPlist.strings */,
+				28D143AA15AE31F900FB27EF /* main.m */,
+				28D143AC15AE31F900FB27EF /* BTControllerClientTester-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		28D143C015AE31F900FB27EF /* BTControllerClientTesterTests */ = {
+			isa = PBXGroup;
+			children = (
+				28D143C615AE31F900FB27EF /* BTControllerClientTesterTests.h */,
+				28D143C715AE31F900FB27EF /* BTControllerClientTesterTests.m */,
+				28D143C115AE31F900FB27EF /* Supporting Files */,
+			);
+			path = BTControllerClientTesterTests;
+			sourceTree = "<group>";
+		};
+		28D143C115AE31F900FB27EF /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				28D143C215AE31F900FB27EF /* BTControllerClientTesterTests-Info.plist */,
+				28D143C315AE31F900FB27EF /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		B105F6A416160071006DC367 /* BTCManager */ = {
+			isa = PBXGroup;
+			children = (
+				B105F6A516160071006DC367 /* BTCConstants.h */,
+				B105F6A616160071006DC367 /* BTCManager.h */,
+				B105F6A716160071006DC367 /* BTCManager.m */,
+				B105F6A816160071006DC367 /* Controls */,
+			);
+			name = BTCManager;
+			path = ../../../../BTCManager;
+			sourceTree = "<group>";
+		};
+		B105F6A816160071006DC367 /* Controls */ = {
+			isa = PBXGroup;
+			children = (
+				B105F6A916160071006DC367 /* BTCButton.h */,
+				B105F6AA16160071006DC367 /* BTCButton.m */,
+				B105F6AB16160071006DC367 /* JoyStick */,
+			);
+			path = Controls;
+			sourceTree = "<group>";
+		};
+		B105F6AB16160071006DC367 /* JoyStick */ = {
+			isa = PBXGroup;
+			children = (
+				B105F6AC16160071006DC367 /* BTCJoyStickThumbView.h */,
+				B105F6AD16160071006DC367 /* BTCJoyStickThumbView.m */,
+				B105F6AE16160071006DC367 /* BTCJoyStickView.h */,
+				B105F6AF16160071006DC367 /* BTCJoyStickView.m */,
+			);
+			path = JoyStick;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		28D1439715AE31F900FB27EF /* BTControllerClientTester */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 28D143CB15AE31F900FB27EF /* Build configuration list for PBXNativeTarget "BTControllerClientTester" */;
+			buildPhases = (
+				28D1439415AE31F900FB27EF /* Sources */,
+				28D1439515AE31F900FB27EF /* Frameworks */,
+				28D1439615AE31F900FB27EF /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = BTControllerClientTester;
+			productName = BTControllerClientTester;
+			productReference = 28D1439815AE31F900FB27EF /* BTControllerClientTester.app */;
+			productType = "com.apple.product-type.application";
+		};
+		28D143B715AE31F900FB27EF /* BTControllerClientTesterTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 28D143CE15AE31F900FB27EF /* Build configuration list for PBXNativeTarget "BTControllerClientTesterTests" */;
+			buildPhases = (
+				28D143B315AE31F900FB27EF /* Sources */,
+				28D143B415AE31F900FB27EF /* Frameworks */,
+				28D143B515AE31F900FB27EF /* Resources */,
+				28D143B615AE31F900FB27EF /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				28D143BF15AE31F900FB27EF /* PBXTargetDependency */,
+			);
+			name = BTControllerClientTesterTests;
+			productName = BTControllerClientTesterTests;
+			productReference = 28D143B815AE31F900FB27EF /* BTControllerClientTesterTests.octest */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		28D1438F15AE31F900FB27EF /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = BTCC;
+				LastUpgradeCheck = 0450;
+				ORGANIZATIONNAME = "Big Nerd Ranch";
+			};
+			buildConfigurationList = 28D1439215AE31F900FB27EF /* Build configuration list for PBXProject "BTControllerClientTester" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 28D1438D15AE31F900FB27EF;
+			productRefGroup = 28D1439915AE31F900FB27EF /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				28D1439715AE31F900FB27EF /* BTControllerClientTester */,
+				28D143B715AE31F900FB27EF /* BTControllerClientTesterTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		28D1439615AE31F900FB27EF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				28D143A915AE31F900FB27EF /* InfoPlist.strings in Resources */,
+				B1CB30C515AE458C0058405A /* BTCCMainVC.xib in Resources */,
+				B1FE2E3E15AF6B060056FE40 /* BTCCConnectedVC.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		28D143B515AE31F900FB27EF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				28D143C515AE31F900FB27EF /* InfoPlist.strings in Resources */,
+				B1FE2E3F15AF6B060056FE40 /* BTCCConnectedVC.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		28D143B615AE31F900FB27EF /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		28D1439415AE31F900FB27EF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				28D143AB15AE31F900FB27EF /* main.m in Sources */,
+				28D143AF15AE31F900FB27EF /* BTCCAppDelegate.m in Sources */,
+				28D143B215AE31F900FB27EF /* BTControllerClientTester.xcdatamodeld in Sources */,
+				B1CB30C415AE458C0058405A /* BTCCMainVC.m in Sources */,
+				B1FE2E3C15AF6B060056FE40 /* BTCCConnectedVC.m in Sources */,
+				B105F6B016160071006DC367 /* BTCManager.m in Sources */,
+				B105F6B116160071006DC367 /* BTCButton.m in Sources */,
+				B105F6B216160071006DC367 /* BTCJoyStickThumbView.m in Sources */,
+				B105F6B316160071006DC367 /* BTCJoyStickView.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		28D143B315AE31F900FB27EF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				28D143C815AE31F900FB27EF /* BTControllerClientTesterTests.m in Sources */,
+				B1FE2E3D15AF6B060056FE40 /* BTCCConnectedVC.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		28D143BF15AE31F900FB27EF /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 28D1439715AE31F900FB27EF /* BTControllerClientTester */;
+			targetProxy = 28D143BE15AE31F900FB27EF /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		28D143A715AE31F900FB27EF /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				28D143A815AE31F900FB27EF /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		28D143C315AE31F900FB27EF /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				28D143C415AE31F900FB27EF /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		28D143C915AE31F900FB27EF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		28D143CA15AE31F900FB27EF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		28D143CC15AE31F900FB27EF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "BTControllerClientTester/BTControllerClientTester-Prefix.pch";
+				INFOPLIST_FILE = "BTControllerClientTester/BTControllerClientTester-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		28D143CD15AE31F900FB27EF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "BTControllerClientTester/BTControllerClientTester-Prefix.pch";
+				INFOPLIST_FILE = "BTControllerClientTester/BTControllerClientTester-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		28D143CF15AE31F900FB27EF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/BTControllerClientTester.app/BTControllerClientTester";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "BTControllerClientTester/BTControllerClientTester-Prefix.pch";
+				INFOPLIST_FILE = "BTControllerClientTesterTests/BTControllerClientTesterTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Debug;
+		};
+		28D143D015AE31F900FB27EF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/BTControllerClientTester.app/BTControllerClientTester";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "BTControllerClientTester/BTControllerClientTester-Prefix.pch";
+				INFOPLIST_FILE = "BTControllerClientTesterTests/BTControllerClientTesterTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		28D1439215AE31F900FB27EF /* Build configuration list for PBXProject "BTControllerClientTester" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				28D143C915AE31F900FB27EF /* Debug */,
+				28D143CA15AE31F900FB27EF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		28D143CB15AE31F900FB27EF /* Build configuration list for PBXNativeTarget "BTControllerClientTester" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				28D143CC15AE31F900FB27EF /* Debug */,
+				28D143CD15AE31F900FB27EF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		28D143CE15AE31F900FB27EF /* Build configuration list for PBXNativeTarget "BTControllerClientTesterTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				28D143CF15AE31F900FB27EF /* Debug */,
+				28D143D015AE31F900FB27EF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		28D143B015AE31F900FB27EF /* BTControllerClientTester.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				28D143B115AE31F900FB27EF /* BTControllerClientTester.xcdatamodel */,
+			);
+			currentVersion = 28D143B115AE31F900FB27EF /* BTControllerClientTester.xcdatamodel */;
+			path = BTControllerClientTester.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = 28D1438F15AE31F900FB27EF /* Project object */;
+}
