@@ -138,7 +138,7 @@
     
     CGFloat rads = 0;
     if (second.y <= first.y && second.x >= first.x) {
-        //upper right
+        //upper rightx
         rads = atan(width/height);
         rads += (M_PI*1.5);
     } else if(second.y >= first.y &&second.x >= first.x) {
