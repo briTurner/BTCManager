@@ -1,3 +1,17 @@
+Purpose of this project:
+    This library will allow you to quickly design a controller on the iphone or ipad, which will be able to control a game on a different ipad or iphone. This could be used to allow the ipad/iphone running the game to be across the room plugged into the tv, while the user sits on the couch with a different iphone/ipod/ipad controlling the game.  this controller will also allow for multi player.  for instance, you could have one central game board on an ipad, while 4 other players user their iphone's/ipods to control their character on the shared bored. 
+
+    As of right now, the library supports:
+        multiple simultanious controller connections
+        joystick movements from any number of joysticks per player
+        button presses from any number of buttons per player
+            each button press sends a unique identifier when the button is pressed down, and then again when released
+        sending of any arbirary NSData object, which will be marked with an identifier in order to ensure to can be correctly identified and handled once the game recieves it
+        sending of a virate command to the controllers (for example, in the event that player 1 shot player 2, the game could command player 2's controller to vibrate. 
+
+
+
+
 USE:
 IMPORTANT:
     before you can use this library in your project you MUST add the frameworks GameKit and AudioToolbox to the project.  
