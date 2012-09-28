@@ -11,7 +11,7 @@
 #import "BTCManager.h"
 
 @interface BTCJoyStickView () {
-    CGPoint joyStickOrigin;    
+    CGPoint joyStickOrigin;
     
     BTCJoyStickThumbView *joyStickView;
     
@@ -54,7 +54,7 @@
 }
 
 - (void)layoutSubviews {
-    joyStickOrigin = CGPointMake([self frame].size.width / 2, [self frame].size.height / 2);        
+    joyStickOrigin = CGPointMake([self frame].size.width / 2, [self frame].size.height / 2);
     [joyStickView setCenter:CGPointMake([self frame].size.width / 2, [self frame].size.height / 2)];
 }
 
@@ -80,33 +80,33 @@
         joyStickData.joyStickID = [self tag];
         if (joyStickData.joyStickID != NSNotFound) {
             
-        float distanceOfPoint = 0;
-        
-        float angelOfPoint = [self angleBetweenPoints:joyStickOrigin andSecond:locationOfTouch];
-        
-        if ([self distanceBetweenPoint:locationOfTouch andPoint:joyStickOrigin] <75) {
-            [joyStickView setCenter:locationOfTouch];
-            distanceOfPoint = [self distanceBetweenPoint:joyStickOrigin andPoint:locationOfTouch]/75;    
-        }
-        
-        else if ([self distanceBetweenPoint:locationOfTouch andPoint:joyStickOrigin] > 75) {
-            distanceOfPoint = 1;
+            float distanceOfPoint = 0;
             
-            CGFloat yValue = sinf(angelOfPoint)*75;
-            CGFloat xValue = cosf(angelOfPoint)*75;
+            float angelOfPoint = [self angleBetweenPoints:joyStickOrigin andSecond:locationOfTouch];
             
-            [joyStickView setCenter:CGPointMake(joyStickOrigin.x+yValue, joyStickOrigin.y-xValue)];
-        }
-        joyStickData.angle = angelOfPoint;
-        joyStickData.distance = distanceOfPoint;
-        [[BTCManager sharedManager] sendNetworkPacketWithID:DataPacketTypeJoyStick withData:&joyStickData ofLength:sizeof(joyStickData) reliable:NO toPeers:nil];
+            if ([self distanceBetweenPoint:locationOfTouch andPoint:joyStickOrigin] <= 75) {
+                [joyStickView setCenter:locationOfTouch];
+                distanceOfPoint = [self distanceBetweenPoint:joyStickOrigin andPoint:locationOfTouch]/75;
+            }
+            
+            else if ([self distanceBetweenPoint:locationOfTouch andPoint:joyStickOrigin] > 75) {
+                distanceOfPoint = 1;
+                
+                CGFloat yValue = sinf(angelOfPoint + (M_PI * .5))*75;
+                CGFloat xValue = cosf(angelOfPoint + (M_PI * .5))*75;
+                
+                [joyStickView setCenter:CGPointMake(joyStickOrigin.x+yValue, joyStickOrigin.y-xValue)];
+            }
+            joyStickData.angle = angelOfPoint;
+            joyStickData.distance = distanceOfPoint;
+            [[BTCManager sharedManager] sendNetworkPacketWithID:DataPacketTypeJoyStick withData:&joyStickData ofLength:sizeof(joyStickData) reliable:NO toPeers:nil];
         } else {
             NSLog(@"This joystick does not have a proper tag.  Please set one either programatically or in IB");
         }
     }
 }
 
-- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {   
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
     if (selectedView)
     {
         [UIView animateWithDuration:.2 animations:^(void) {
@@ -138,16 +138,20 @@
     
     CGFloat rads = 0;
     if (second.y <= first.y && second.x >= first.x) {
+        //upper right
         rads = atan(width/height);
-    } else if(second.y >= first.y &&second.x >= first.x) {
-        rads = atan(height/width);
-        rads += (M_PI*.5);
-    } else  if (second.y >= first.y && second.x <= first.x) {
-        rads = atan(width/height);
-        rads += M_PI;        
-    } else if (second.x <= first.x && second.y <= first.y) {
-        rads = atan(height/width);
         rads += (M_PI*1.5);
+    } else if(second.y >= first.y &&second.x >= first.x) {
+        //bottom right
+        rads = atan(height/width);
+    } else  if (second.y >= first.y && second.x <= first.x) {
+        //bottom left
+        rads = atan(width/height);
+        rads += (M_PI*.5);
+    } else if (second.x <= first.x && second.y <= first.y) {
+        //top left
+        rads = atan(height/width);
+        rads += M_PI;
     }
     return rads;
 }
