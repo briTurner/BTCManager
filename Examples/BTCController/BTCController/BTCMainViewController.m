@@ -30,6 +30,8 @@
             [manager connectToServer:serverID];
         }];
         
+        
+        //You must remember to start the session after you configure it
         [manager startSession];
         
     }

@@ -44,7 +44,6 @@ NSString * const BTCManagerNotificationControllerUnavailable = @"BTCManagerNotif
 NSString * const BTCManagerNotificationConntedToPeerController = @"BTCManagerNotificationConntedToPeerController";
 NSString * const BTCManagerNotificationDisconnectedFromPeerController = @"BTCManagerNotificationDisconnectedFromPeerController";
 
-NSString * const BTCManagerNotificationFoundAvailableServer = @"BTCManagerNotificationServerAvailableForConnection";
 NSString * const BTCManagerNotificationConnectingToServer = @"BTCManagerNotificationConnectingToServer";
 NSString * const BTCManagerNotificationConnectedToServer = @"BTCManagerNotificationConnectedToServer";
 NSString * const BTCManagerNotificationDisconnectedFromServer = @"BTCManagerNotificationDisconnectedFromServer";

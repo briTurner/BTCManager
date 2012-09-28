@@ -27,6 +27,10 @@ typedef struct {
     float distance;
 } JoyStickDataStruct;
 
+
+//button data.
+//button ID is used to uniquely identify one button on the controller from another
+//state is used to determine if the button is being pressed down, or lifted up. 
 typedef struct {
     int buttonID;
     ButtonState state;

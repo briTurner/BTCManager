@@ -33,7 +33,6 @@ extern NSString * const BTCManagerNotificationConntedToPeerController;
 extern NSString * const BTCManagerNotificationDisconnectedFromPeerController;
 
 //Notes sent to servers
-extern NSString * const BTCManagerNotificationFoundAvailableServer;
 extern NSString * const BTCManagerNotificationConnectingToServer;
 extern NSString * const BTCManagerNotificationConnectedToServer;
 extern NSString * const BTCManagerNotificationDisconnectedFromServer;
@@ -47,7 +46,7 @@ extern NSString * const kBTCPeerDisplayName;
 @interface BTCManager : NSObject <GKSessionDelegate> {
 
 }
-//Use this to get the instance of the manager
+//Use this to get the singleton instance of the manager
 + (id)sharedManager;
 
 //This is an optional name for the device (controller and server) 
@@ -87,15 +86,23 @@ extern NSString * const kBTCPeerDisplayName;
 //  This will eventually trigger the delegate method manager:serverNoLongerAvailableForConnection:displayName
 - (void)becomeUnavailable;
 
-//Tells the controller to connect to the serverID passed as the argument
-//  If the connection is successful the controller will be notified with manager:connectedToServer:withDisplayName:
-- (void)connectToServer:(NSString *)serverId;
 
+
+//register a block which will be triggered every time a button is pressed on the controller.
+//you can have as many controllers as you like registered
 - (void)registerButtonPressBlock:(void(^)(ButtonDataStruct buttonData, PeerData controllerData))buttonBlock;
 
+//register a block which will be triggered every time a joystick is moved on the controller.
+//you can have as many controllers as you like registered
 - (void)registerJoystickMovedBlock:(void(^)(JoyStickDataStruct joystickData, PeerData controllerData))joystickBlock;
 
+//register a block which will be triggered every time a controller sends arbitrary data
+//you can have as many controllers as you like registered
 - (void)registerArbitraryDataRecievedBlock:(void(^)(ArbitraryDataStruct arbitraryData, PeerData controllerData))arbitraryDataBlock;
+
+
+
+
 
 //Use this method to send any data to any device (game, or controller)
 //  Package the data in NSData
@@ -108,6 +115,16 @@ extern NSString * const kBTCPeerDisplayName;
 //  If the controller does not have a vibrating motor (iPod 2nd gen and before) nothing will happen
 - (void)vibrateControllers:(NSArray *)peers;
 
-//Do not call this method directly.  Instead, use sendArbitraryData:withIdentifier:reliably:toPeers
+//Tells the controller to connect to the serverID passed as the argument
+//  If the connection is successful the controller will be notified with manager:connectedToServer:withDisplayName:
+- (void)connectToServer:(NSString *)serverId;
+
+
+
+
+
+
+
+//Never call this method directly.  Instead, use sendArbitraryData:withIdentifier:reliably:toPeers
 - (void)sendNetworkPacketWithID:(DataPacketType)packetID withData:(void *)data ofLength:(size_t)length reliable:(BOOL)howtosend toPeers:(NSArray *)peers;
 @end

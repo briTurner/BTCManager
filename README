@@ -1,4 +1,18 @@
+USE:
 IMPORTANT:
-    before you can use this library in your project you MUST add the frameworks GameKit and AudioTool box to the project.  
-    GameKit is used for assistance with connection and data transer. 
+    before you can use this library in your project you MUST add the frameworks GameKit and AudioToolbox to the project.  
+    GameKit is used for assistance with connection and data transfer. 
     AudioToolbox is used to allow for the vibration commands to function
+
+
+How To:
+   use sharedManager: to get the singleton instance of the BTCManager
+   call one of the two available configureManagerAs**** methods in order to configure your game or controller. 
+        each of those methods comes with a block method which MUST be handled in order for a connection to be established
+   you must then call startSession for both the controller and the game. 
+
+
+keep in mind, you need to create a controller to send the commands, and a server to receive the commands.  You can wrap this all into a single universal app if you would like.  However, i would recommend making a dedicated controller app. 
+
+
+the BTCManager.h file is fairly well documented.  Please refer to that, and the example projects. 
