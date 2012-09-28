@@ -1,0 +1,350 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		B19E4AE2161574B000A8D010 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B19E4AE1161574B000A8D010 /* UIKit.framework */; };
+		B19E4AE4161574B000A8D010 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B19E4AE3161574B000A8D010 /* Foundation.framework */; };
+		B19E4AE6161574B000A8D010 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B19E4AE5161574B000A8D010 /* CoreGraphics.framework */; };
+		B19E4AEC161574B000A8D010 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = B19E4AEA161574B000A8D010 /* InfoPlist.strings */; };
+		B19E4AEE161574B000A8D010 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B19E4AED161574B000A8D010 /* main.m */; };
+		B19E4AF2161574B000A8D010 /* BTCAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B19E4AF1161574B000A8D010 /* BTCAppDelegate.m */; };
+		B19E4AF4161574B000A8D010 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = B19E4AF3161574B000A8D010 /* Default.png */; };
+		B19E4AF6161574B000A8D010 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B19E4AF5161574B000A8D010 /* Default@2x.png */; };
+		B19E4AF8161574B000A8D010 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B19E4AF7161574B000A8D010 /* Default-568h@2x.png */; };
+		B19E4B01161574C200A8D010 /* BTCMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B19E4AFF161574C100A8D010 /* BTCMainViewController.m */; };
+		B19E4B02161574C200A8D010 /* BTCMainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B19E4B00161574C200A8D010 /* BTCMainViewController.xib */; };
+		B19E4B0F161574C800A8D010 /* BTCManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B19E4B06161574C800A8D010 /* BTCManager.m */; };
+		B19E4B10161574C800A8D010 /* BTCButton.m in Sources */ = {isa = PBXBuildFile; fileRef = B19E4B09161574C800A8D010 /* BTCButton.m */; };
+		B19E4B11161574C800A8D010 /* BTCJoyStickThumbView.m in Sources */ = {isa = PBXBuildFile; fileRef = B19E4B0C161574C800A8D010 /* BTCJoyStickThumbView.m */; };
+		B19E4B12161574C800A8D010 /* BTCJoyStickView.m in Sources */ = {isa = PBXBuildFile; fileRef = B19E4B0E161574C800A8D010 /* BTCJoyStickView.m */; };
+		B19E4B14161575B000A8D010 /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B19E4B13161575B000A8D010 /* GameKit.framework */; };
+		B19E4B16161575B400A8D010 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B19E4B15161575B400A8D010 /* AudioToolbox.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		B19E4ADD161574B000A8D010 /* BTCGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BTCGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		B19E4AE1161574B000A8D010 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		B19E4AE3161574B000A8D010 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		B19E4AE5161574B000A8D010 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		B19E4AE9161574B000A8D010 /* BTCGame-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "BTCGame-Info.plist"; sourceTree = "<group>"; };
+		B19E4AEB161574B000A8D010 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		B19E4AED161574B000A8D010 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		B19E4AEF161574B000A8D010 /* BTCGame-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BTCGame-Prefix.pch"; sourceTree = "<group>"; };
+		B19E4AF0161574B000A8D010 /* BTCAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BTCAppDelegate.h; sourceTree = "<group>"; };
+		B19E4AF1161574B000A8D010 /* BTCAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BTCAppDelegate.m; sourceTree = "<group>"; };
+		B19E4AF3161574B000A8D010 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
+		B19E4AF5161574B000A8D010 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		B19E4AF7161574B000A8D010 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		B19E4AFE161574C100A8D010 /* BTCMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BTCMainViewController.h; sourceTree = "<group>"; };
+		B19E4AFF161574C100A8D010 /* BTCMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BTCMainViewController.m; sourceTree = "<group>"; };
+		B19E4B00161574C200A8D010 /* BTCMainViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BTCMainViewController.xib; sourceTree = "<group>"; };
+		B19E4B04161574C800A8D010 /* BTCConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BTCConstants.h; sourceTree = "<group>"; };
+		B19E4B05161574C800A8D010 /* BTCManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BTCManager.h; sourceTree = "<group>"; };
+		B19E4B06161574C800A8D010 /* BTCManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BTCManager.m; sourceTree = "<group>"; };
+		B19E4B08161574C800A8D010 /* BTCButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BTCButton.h; sourceTree = "<group>"; };
+		B19E4B09161574C800A8D010 /* BTCButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BTCButton.m; sourceTree = "<group>"; };
+		B19E4B0B161574C800A8D010 /* BTCJoyStickThumbView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BTCJoyStickThumbView.h; sourceTree = "<group>"; };
+		B19E4B0C161574C800A8D010 /* BTCJoyStickThumbView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BTCJoyStickThumbView.m; sourceTree = "<group>"; };
+		B19E4B0D161574C800A8D010 /* BTCJoyStickView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BTCJoyStickView.h; sourceTree = "<group>"; };
+		B19E4B0E161574C800A8D010 /* BTCJoyStickView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BTCJoyStickView.m; sourceTree = "<group>"; };
+		B19E4B13161575B000A8D010 /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
+		B19E4B15161575B400A8D010 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		B19E4ADA161574B000A8D010 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B19E4B16161575B400A8D010 /* AudioToolbox.framework in Frameworks */,
+				B19E4B14161575B000A8D010 /* GameKit.framework in Frameworks */,
+				B19E4AE2161574B000A8D010 /* UIKit.framework in Frameworks */,
+				B19E4AE4161574B000A8D010 /* Foundation.framework in Frameworks */,
+				B19E4AE6161574B000A8D010 /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		B19E4AD2161574B000A8D010 = {
+			isa = PBXGroup;
+			children = (
+				B19E4AE7161574B000A8D010 /* BTCGame */,
+				B19E4AE0161574B000A8D010 /* Frameworks */,
+				B19E4ADE161574B000A8D010 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		B19E4ADE161574B000A8D010 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				B19E4ADD161574B000A8D010 /* BTCGame.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		B19E4AE0161574B000A8D010 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				B19E4B15161575B400A8D010 /* AudioToolbox.framework */,
+				B19E4B13161575B000A8D010 /* GameKit.framework */,
+				B19E4AE1161574B000A8D010 /* UIKit.framework */,
+				B19E4AE3161574B000A8D010 /* Foundation.framework */,
+				B19E4AE5161574B000A8D010 /* CoreGraphics.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		B19E4AE7161574B000A8D010 /* BTCGame */ = {
+			isa = PBXGroup;
+			children = (
+				B19E4B03161574C800A8D010 /* BTCManager */,
+				B19E4AF0161574B000A8D010 /* BTCAppDelegate.h */,
+				B19E4AF1161574B000A8D010 /* BTCAppDelegate.m */,
+				B19E4AFE161574C100A8D010 /* BTCMainViewController.h */,
+				B19E4AFF161574C100A8D010 /* BTCMainViewController.m */,
+				B19E4B00161574C200A8D010 /* BTCMainViewController.xib */,
+				B19E4AE8161574B000A8D010 /* Supporting Files */,
+			);
+			path = BTCGame;
+			sourceTree = "<group>";
+		};
+		B19E4AE8161574B000A8D010 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				B19E4AE9161574B000A8D010 /* BTCGame-Info.plist */,
+				B19E4AEA161574B000A8D010 /* InfoPlist.strings */,
+				B19E4AED161574B000A8D010 /* main.m */,
+				B19E4AEF161574B000A8D010 /* BTCGame-Prefix.pch */,
+				B19E4AF3161574B000A8D010 /* Default.png */,
+				B19E4AF5161574B000A8D010 /* Default@2x.png */,
+				B19E4AF7161574B000A8D010 /* Default-568h@2x.png */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		B19E4B03161574C800A8D010 /* BTCManager */ = {
+			isa = PBXGroup;
+			children = (
+				B19E4B04161574C800A8D010 /* BTCConstants.h */,
+				B19E4B05161574C800A8D010 /* BTCManager.h */,
+				B19E4B06161574C800A8D010 /* BTCManager.m */,
+				B19E4B07161574C800A8D010 /* Controls */,
+			);
+			name = BTCManager;
+			path = ../../../BTCManager;
+			sourceTree = "<group>";
+		};
+		B19E4B07161574C800A8D010 /* Controls */ = {
+			isa = PBXGroup;
+			children = (
+				B19E4B08161574C800A8D010 /* BTCButton.h */,
+				B19E4B09161574C800A8D010 /* BTCButton.m */,
+				B19E4B0A161574C800A8D010 /* JoyStick */,
+			);
+			path = Controls;
+			sourceTree = "<group>";
+		};
+		B19E4B0A161574C800A8D010 /* JoyStick */ = {
+			isa = PBXGroup;
+			children = (
+				B19E4B0B161574C800A8D010 /* BTCJoyStickThumbView.h */,
+				B19E4B0C161574C800A8D010 /* BTCJoyStickThumbView.m */,
+				B19E4B0D161574C800A8D010 /* BTCJoyStickView.h */,
+				B19E4B0E161574C800A8D010 /* BTCJoyStickView.m */,
+			);
+			path = JoyStick;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		B19E4ADC161574B000A8D010 /* BTCGame */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B19E4AFB161574B000A8D010 /* Build configuration list for PBXNativeTarget "BTCGame" */;
+			buildPhases = (
+				B19E4AD9161574B000A8D010 /* Sources */,
+				B19E4ADA161574B000A8D010 /* Frameworks */,
+				B19E4ADB161574B000A8D010 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = BTCGame;
+			productName = BTCGame;
+			productReference = B19E4ADD161574B000A8D010 /* BTCGame.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		B19E4AD4161574B000A8D010 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = BTC;
+				LastUpgradeCheck = 0450;
+				ORGANIZATIONNAME = "Brian Turner";
+			};
+			buildConfigurationList = B19E4AD7161574B000A8D010 /* Build configuration list for PBXProject "BTCGame" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = B19E4AD2161574B000A8D010;
+			productRefGroup = B19E4ADE161574B000A8D010 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				B19E4ADC161574B000A8D010 /* BTCGame */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		B19E4ADB161574B000A8D010 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B19E4AEC161574B000A8D010 /* InfoPlist.strings in Resources */,
+				B19E4AF4161574B000A8D010 /* Default.png in Resources */,
+				B19E4AF6161574B000A8D010 /* Default@2x.png in Resources */,
+				B19E4AF8161574B000A8D010 /* Default-568h@2x.png in Resources */,
+				B19E4B02161574C200A8D010 /* BTCMainViewController.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		B19E4AD9161574B000A8D010 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B19E4AEE161574B000A8D010 /* main.m in Sources */,
+				B19E4AF2161574B000A8D010 /* BTCAppDelegate.m in Sources */,
+				B19E4B01161574C200A8D010 /* BTCMainViewController.m in Sources */,
+				B19E4B0F161574C800A8D010 /* BTCManager.m in Sources */,
+				B19E4B10161574C800A8D010 /* BTCButton.m in Sources */,
+				B19E4B11161574C800A8D010 /* BTCJoyStickThumbView.m in Sources */,
+				B19E4B12161574C800A8D010 /* BTCJoyStickView.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		B19E4AEA161574B000A8D010 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				B19E4AEB161574B000A8D010 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		B19E4AF9161574B000A8D010 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		B19E4AFA161574B000A8D010 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		B19E4AFC161574B000A8D010 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "BTCGame/BTCGame-Prefix.pch";
+				INFOPLIST_FILE = "BTCGame/BTCGame-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		B19E4AFD161574B000A8D010 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "BTCGame/BTCGame-Prefix.pch";
+				INFOPLIST_FILE = "BTCGame/BTCGame-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		B19E4AD7161574B000A8D010 /* Build configuration list for PBXProject "BTCGame" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B19E4AF9161574B000A8D010 /* Debug */,
+				B19E4AFA161574B000A8D010 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B19E4AFB161574B000A8D010 /* Build configuration list for PBXNativeTarget "BTCGame" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B19E4AFC161574B000A8D010 /* Debug */,
+				B19E4AFD161574B000A8D010 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = B19E4AD4161574B000A8D010 /* Project object */;
+}
