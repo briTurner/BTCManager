@@ -11,10 +11,6 @@
 #import <QuartzCore/QuartzCore.h>
 #import "BTCManager.h"
 
-NSString * const borderType = @"borderType";
-NSString * const characterType = @"characterType";
-
-
 @interface BTCGameViewController () {
     CADisplayLink *displayLink;
     
@@ -30,6 +26,7 @@ NSString * const characterType = @"characterType";
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         charactersToControllers = [NSMutableDictionary dictionary];
+        allCharacters = [NSMutableArray array];
         
         BTCManager *manager = [BTCManager sharedManager];
         [manager configureManagerAsGameWithSessionID:@"gameDemo" connectionRequestBlock:^(NSString *peerID, NSString *displayName, ResponseBlock responseBlock) {
@@ -46,6 +43,7 @@ NSString * const characterType = @"characterType";
             [character jump];
         }];
         
+        [manager startSession];
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(controllerConnected:) name:BTCManagerNotificationConnectedToController object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(controllerDisconnected:) name:BTCManagerNotificationDisconnectedFromController object:nil];
@@ -53,11 +51,17 @@ NSString * const characterType = @"characterType";
     return self;
 }
 
-
 - (void)viewDidAppear:(BOOL)animated {
     displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(update)];
     displayLink.frameInterval = 1;
     [displayLink addToRunLoop:[NSRunLoop mainRunLoop] forMode:NSDefaultRunLoopMode];
+}
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    UIView *v = [[UIView alloc] initWithFrame:CGRectMake(20, 30, 440, 20)];
+    [v setBackgroundColor:[UIColor purpleColor]];
+    [[self view] addSubview:v];
 }
 
 - (void)update {
@@ -82,7 +86,7 @@ NSString * const characterType = @"characterType";
 - (void)controllerConnected:(NSNotification *)note {
     NSLog(@"controller %@ connected", [[note userInfo] valueForKey:kBTCPeerDisplayName]);
 
-    BTCCharacter *character = [[BTCCharacter alloc] initWithFrame:CGRectMake(150, 200, 100, 100)];
+    BTCCharacter *character = [[BTCCharacter alloc] initWithFrame:CGRectMake(150, 200, 100, 100) displayName:[[note userInfo] valueForKey:kBTCPeerDisplayName]];
     [character setBackgroundColor:[UIColor redColor]];
     [[self view] addSubview:character];
     

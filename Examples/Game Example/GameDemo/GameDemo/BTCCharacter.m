@@ -18,13 +18,21 @@
 
 @implementation BTCCharacter
 
-- (id)initWithFrame:(CGRect)frame
+- (id)initWithFrame:(CGRect)frame displayName:(NSString *)displayName
 {
     self = [super initWithFrame:frame];
     if (self) {
-        // Initialization code
+        UILabel *label = [[UILabel alloc] initWithFrame:[self bounds]];
+        [label setText:displayName];
+        [label setBackgroundColor:[UIColor clearColor]];
+        [label setMinimumFontSize:6];
+        [self addSubview:label];
     }
     return self;
+}
+
+- (id)initWithFrame:(CGRect)frame {
+    return [self initWithFrame:frame displayName:nil];
 }
 
 /*

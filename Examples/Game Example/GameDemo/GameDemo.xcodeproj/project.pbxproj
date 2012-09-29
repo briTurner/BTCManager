@@ -20,7 +20,6 @@
 		B184746B161625EB004E1EC9 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B184746A161625EB004E1EC9 /* main.m */; };
 		B184746F161625EB004E1EC9 /* BTCAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B184746E161625EB004E1EC9 /* BTCAppDelegate.m */; };
 		B184747D1616262E004E1EC9 /* BTCGameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B184747C1616262E004E1EC9 /* BTCGameViewController.m */; };
-		B184747F1616263D004E1EC9 /* BTCGameViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B184747E1616263D004E1EC9 /* BTCGameViewController.xib */; };
 		B18474CE16165954004E1EC9 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B18474CD16165954004E1EC9 /* QuartzCore.framework */; };
 		B18474D116165D49004E1EC9 /* BTCCharacter.m in Sources */ = {isa = PBXBuildFile; fileRef = B18474D016165D49004E1EC9 /* BTCCharacter.m */; };
 /* End PBXBuildFile section */
@@ -49,7 +48,6 @@
 		B184746E161625EB004E1EC9 /* BTCAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BTCAppDelegate.m; sourceTree = "<group>"; };
 		B184747B1616262E004E1EC9 /* BTCGameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BTCGameViewController.h; sourceTree = "<group>"; };
 		B184747C1616262E004E1EC9 /* BTCGameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BTCGameViewController.m; sourceTree = "<group>"; };
-		B184747E1616263D004E1EC9 /* BTCGameViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BTCGameViewController.xib; sourceTree = "<group>"; };
 		B18474CD16165954004E1EC9 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		B18474CF16165D49004E1EC9 /* BTCCharacter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BTCCharacter.h; sourceTree = "<group>"; };
 		B18474D016165D49004E1EC9 /* BTCCharacter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BTCCharacter.m; sourceTree = "<group>"; };
@@ -144,7 +142,6 @@
 				B1847465161625EB004E1EC9 /* Supporting Files */,
 				B184747B1616262E004E1EC9 /* BTCGameViewController.h */,
 				B184747C1616262E004E1EC9 /* BTCGameViewController.m */,
-				B184747E1616263D004E1EC9 /* BTCGameViewController.xib */,
 				B18474CF16165D49004E1EC9 /* BTCCharacter.h */,
 				B18474D016165D49004E1EC9 /* BTCCharacter.m */,
 			);
@@ -215,7 +212,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				B1847469161625EB004E1EC9 /* InfoPlist.strings in Resources */,
-				B184747F1616263D004E1EC9 /* BTCGameViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -307,6 +303,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GameDemo/GameDemo-Prefix.pch";
 				INFOPLIST_FILE = "GameDemo/GameDemo-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/GameDemo/ChipmunkPro-iPhone-Trial\"",
@@ -323,6 +320,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GameDemo/GameDemo-Prefix.pch";
 				INFOPLIST_FILE = "GameDemo/GameDemo-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/GameDemo/ChipmunkPro-iPhone-Trial\"",

@@ -24,6 +24,7 @@ typedef enum {
 }
 @property (nonatomic) Direction direction;
 @property (nonatomic) CGFloat velocity;
+- (id)initWithFrame:(CGRect)frame displayName:(NSString *)displayName;
 
 - (void)update;
 - (void)jump;

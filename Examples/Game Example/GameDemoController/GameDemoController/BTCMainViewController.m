@@ -23,6 +23,7 @@
         [manager configureManagerAsControllerWithSessionID:@"gameDemo" serverAvailableBlock:^(NSString *serverID, NSString *serverDisplayName) {
             [manager connectToServer:serverID];
         }];
+        [manager startSession];
     }
     return self;
 }
