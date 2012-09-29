@@ -19,10 +19,9 @@ typedef enum {
 } JumpDirection;
 
 @interface BTCCharacter : UIView {
-
-
 }
 @property (nonatomic) Direction direction;
+@property (nonatomic, strong) NSString *peerID;
 @property (nonatomic) CGFloat velocity;
 - (id)initWithFrame:(CGRect)frame displayName:(NSString *)displayName;
 

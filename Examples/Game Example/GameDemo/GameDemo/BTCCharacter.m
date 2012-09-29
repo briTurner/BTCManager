@@ -7,6 +7,7 @@
 //
 
 #import "BTCCharacter.h"
+#import "BTCManager.h"
 
 @interface BTCCharacter () {
     BOOL jumping;
@@ -23,9 +24,12 @@
     self = [super initWithFrame:frame];
     if (self) {
         UILabel *label = [[UILabel alloc] initWithFrame:[self bounds]];
-        [label setText:displayName];
+        [label setText:[NSString stringWithFormat:@"%@\nTap Me", displayName]];
         [label setBackgroundColor:[UIColor clearColor]];
         [label setMinimumFontSize:6];
+        [label setNumberOfLines:0];
+        [label setLineBreakMode:NSLineBreakByWordWrapping];
+        [label setTextAlignment:NSTextAlignmentCenter];
         [self addSubview:label];
     }
     return self;
@@ -75,5 +79,11 @@
 
     [self setFrame:currnetRect];
 }
+
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    [[BTCManager sharedManager] vibrateControllers:[NSArray arrayWithObject:[self peerID]]];
+}
+
 
 @end

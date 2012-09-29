@@ -28,11 +28,15 @@
     return self;
 }
 
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
-}
+//- (void)viewDidDisappear:(BOOL)animated {
+//    [super viewDidDisappear:animated];
+//    [[BTCManager sharedManager] disconnect];
+//}
+
+//- (void)viewDidAppear:(BOOL)animated {
+//    [super viewDidAppear:animated];
+//    [[BTCManager sharedManager] startSession];
+//}
 
 - (void)didReceiveMemoryWarning
 {

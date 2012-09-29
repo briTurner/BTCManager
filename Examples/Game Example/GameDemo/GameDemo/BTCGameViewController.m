@@ -35,12 +35,26 @@
         
         [manager registerJoystickMovedBlock:^(JoyStickDataStruct joystickData, PeerData controllerData) {
             BTCCharacter *character = [charactersToControllers valueForKey:controllerData.ident];
-            [self moveCharacter:character withDistance:joystickData.distance angle:joystickData.angle];
+            switch (joystickData.joyStickID) {
+                case 1:
+                    [self moveCharacter:character withDistance:joystickData.distance angle:joystickData.angle];
+                    break;
+                    
+                default:
+                    break;
+            }
         }];
         
         [manager registerButtonPressBlock:^(ButtonDataStruct buttonData, PeerData controllerData) {
             BTCCharacter *character = [charactersToControllers valueForKey:controllerData.ident];
-            [character jump];
+            switch (buttonData.buttonID) {
+                case 1:
+                    [character jump];
+                    break;
+                default:
+                    break;
+            }
+            
         }];
         
         [manager startSession];
@@ -55,13 +69,6 @@
     displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(update)];
     displayLink.frameInterval = 1;
     [displayLink addToRunLoop:[NSRunLoop mainRunLoop] forMode:NSDefaultRunLoopMode];
-}
-
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    UIView *v = [[UIView alloc] initWithFrame:CGRectMake(20, 30, 440, 20)];
-    [v setBackgroundColor:[UIColor purpleColor]];
-    [[self view] addSubview:v];
 }
 
 - (void)update {
@@ -85,8 +92,9 @@
 
 - (void)controllerConnected:(NSNotification *)note {
     NSLog(@"controller %@ connected", [[note userInfo] valueForKey:kBTCPeerDisplayName]);
-
+    
     BTCCharacter *character = [[BTCCharacter alloc] initWithFrame:CGRectMake(150, 200, 100, 100) displayName:[[note userInfo] valueForKey:kBTCPeerDisplayName]];
+    [character setPeerID:[[note userInfo] valueForKey:kBTCPeerID]];
     [character setBackgroundColor:[UIColor redColor]];
     [[self view] addSubview:character];
     
