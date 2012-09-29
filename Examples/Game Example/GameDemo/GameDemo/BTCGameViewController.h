@@ -9,10 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "BTCJoyStickView.h"
 
-@interface BTCGameViewController : UIViewController <UIAccelerometerDelegate, BTCJoyStickViewDelegate> {
-    __weak IBOutlet BTCJoyStickView *joystick;
-    
+@interface BTCGameViewController : UIViewController <UIAccelerometerDelegate> {    
 }
-- (IBAction)jump:(id)sender;
 
 @end
