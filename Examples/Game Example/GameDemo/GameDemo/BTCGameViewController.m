@@ -17,7 +17,9 @@ NSString * const characterType = @"characterType";
 
 @interface BTCGameViewController () {
     CADisplayLink *displayLink;
-    BTCCharacter *character;
+    
+    NSMutableDictionary *charactersToControllers;
+    NSMutableArray *allCharacters;
 }
 
 @end
@@ -27,29 +29,30 @@ NSString * const characterType = @"characterType";
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
+        charactersToControllers = [NSMutableDictionary dictionary];
+        
         BTCManager *manager = [BTCManager sharedManager];
         [manager configureManagerAsGameWithSessionID:@"gameDemo" connectionRequestBlock:^(NSString *peerID, NSString *displayName, ResponseBlock responseBlock) {
             responseBlock(YES);
         }];
         
         [manager registerJoystickMovedBlock:^(JoyStickDataStruct joystickData, PeerData controllerData) {
-            [self moveCharacterWithDistance:joystickData.distance angle:joystickData.angle];
+            BTCCharacter *character = [charactersToControllers valueForKey:controllerData.ident];
+            [self moveCharacter:character withDistance:joystickData.distance angle:joystickData.angle];
         }];
         
         [manager registerButtonPressBlock:^(ButtonDataStruct buttonData, PeerData controllerData) {
+            BTCCharacter *character = [charactersToControllers valueForKey:controllerData.ident];
             [character jump];
         }];
+        
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(controllerConnected:) name:BTCManagerNotificationConnectedToController object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(controllerDisconnected:) name:BTCManagerNotificationDisconnectedFromController object:nil];
     }
     return self;
 }
 
-
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    character = [[BTCCharacter alloc] initWithFrame:CGRectMake(150, 200, 100, 100)];
-    [character setBackgroundColor:[UIColor redColor]];
-    [[self view] addSubview:character];
-}
 
 - (void)viewDidAppear:(BOOL)animated {
     displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(update)];
@@ -58,10 +61,12 @@ NSString * const characterType = @"characterType";
 }
 
 - (void)update {
-    [character update];
+    for (BTCCharacter *character in allCharacters) {
+        [character update];
+    }
 }
 
-- (void)moveCharacterWithDistance:(CGFloat)d angle:(CGFloat)a {
+- (void)moveCharacter:(BTCCharacter *)c withDistance:(CGFloat)d angle:(CGFloat)a {
     int direction = 0;
     
     CGFloat limitOfBottomRight = (1.0 / 4.0) * (2 * M_PI);
@@ -70,8 +75,29 @@ NSString * const characterType = @"characterType";
         direction = DirectionRight;
     else
         direction = DirectionLeft;
-    [character setDirection:direction];
-    [character setVelocity:d];
+    [c setDirection:direction];
+    [c setVelocity:d];
+}
+
+- (void)controllerConnected:(NSNotification *)note {
+    NSLog(@"controller %@ connected", [[note userInfo] valueForKey:kBTCPeerDisplayName]);
+
+    BTCCharacter *character = [[BTCCharacter alloc] initWithFrame:CGRectMake(150, 200, 100, 100)];
+    [character setBackgroundColor:[UIColor redColor]];
+    [[self view] addSubview:character];
+    
+    [charactersToControllers setValue:character forKey:[[note userInfo] valueForKey:kBTCPeerID]];
+    [allCharacters addObject:character];
+}
+
+- (void)controllerDisconnected:(NSNotification *)note {
+    NSLog(@"controller %@ disconnected", [[note userInfo] valueForKey:kBTCPeerDisplayName]);
+    
+    BTCCharacter *character = [charactersToControllers valueForKey:[[note userInfo] valueForKey:kBTCPeerID]];
+    
+    [character removeFromSuperview];
+    [charactersToControllers removeObjectForKey:[[note userInfo] valueForKey:kBTCPeerID]];
+    [allCharacters removeObject:character];
 }
 
 @end
