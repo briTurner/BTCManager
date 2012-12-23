@@ -56,9 +56,7 @@
             }
             
         }];
-        
         [manager startSession];
-        
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(controllerConnected:) name:BTCManagerNotificationConnectedToController object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(controllerDisconnected:) name:BTCManagerNotificationDisconnectedFromController object:nil];
     }

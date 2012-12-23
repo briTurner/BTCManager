@@ -13,6 +13,8 @@
     BOOL jumping;
     float jumpMomentum;
     JumpDirection jumpDirection;
+    CGFloat width;
+    CGFloat height;
 }
 
 @end
@@ -31,6 +33,8 @@
         [label setLineBreakMode:NSLineBreakByWordWrapping];
         [label setTextAlignment:NSTextAlignmentCenter];
         [self addSubview:label];
+        width = [[UIScreen mainScreen] bounds].size.height;
+        height = [[UIScreen mainScreen] applicationFrame].size.width;
     }
     return self;
 }
@@ -39,19 +43,10 @@
     return [self initWithFrame:frame displayName:nil];
 }
 
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect
-{
-    // Drawing code
-}
-*/
-
 - (void)jump {
     if (!jumping) {
         jumping = YES;
-        jumpMomentum = 10;
+        jumpMomentum = 20;
         jumpDirection = JumpDirectionRising;
     }
 }
@@ -61,8 +56,8 @@
     CGFloat newX =     currnetRect.origin.x + ([self direction] * ([self velocity] * 10));
     if (newX <= 0)
         newX = 0;
-    if (newX >= 480 - currnetRect.size.width)
-        newX = 480 - currnetRect.size.width;
+    if (newX >= width - currnetRect.size.width)
+        newX = width - currnetRect.size.width;
     currnetRect.origin.x = newX;
     
     if (jumping) {
@@ -70,13 +65,13 @@
         jumpMomentum -= jumpDirection;
         if (!jumpMomentum)
             jumpDirection = !jumpDirection;
-        if (newY > 200) {
-            newY = 200;
+        if (newY > height - [self frame].size.height) {
+            newY = height - [self frame].size.height;
             jumping = NO;
         }
         currnetRect.origin.y = newY;
     }
-
+    
     [self setFrame:currnetRect];
 }
 
