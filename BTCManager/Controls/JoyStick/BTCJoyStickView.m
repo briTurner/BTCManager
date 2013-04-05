@@ -13,9 +13,11 @@
 @interface BTCJoyStickView () {
     CGPoint joyStickOrigin;
     
-    BTCJoyStickThumbView *joyStickView;
+    BTCJoyStickThumbView *joyStickThumbView;
     
     UIView *selectedView;
+    
+    CGFloat radiusDistance;
 }
 
 @end
@@ -30,10 +32,12 @@
         
         [self setBackgroundColor:[UIColor clearColor]];
         
-        CGSize joyStickSize = CGSizeMake(40, 40);
-        joyStickView = [[BTCJoyStickThumbView alloc] initWithFrame:CGRectMake(joyStickOrigin.x - joyStickSize.width/2, joyStickOrigin.y - joyStickSize.height/2, joyStickSize.width, joyStickSize.height)];
+        radiusDistance = frame.size.width / 2.0;
         
-        [self addSubview:joyStickView];
+        CGSize joyStickSize = CGSizeMake(40, 40);
+        joyStickThumbView = [[BTCJoyStickThumbView alloc] initWithFrame:CGRectMake(joyStickOrigin.x - joyStickSize.width/2, joyStickOrigin.y - joyStickSize.height/2, joyStickSize.width, joyStickSize.height)];
+        
+        [self addSubview:joyStickThumbView];
     }
     return self;
 }
@@ -45,17 +49,20 @@
         
         [self setBackgroundColor:[UIColor clearColor]];
         
-        CGSize joyStickSize = CGSizeMake(40, 40);
-        joyStickView = [[BTCJoyStickThumbView alloc] initWithFrame:CGRectMake(joyStickOrigin.x - joyStickSize.width/2, joyStickOrigin.y - joyStickSize.height/2, joyStickSize.width, joyStickSize.height)];
+        radiusDistance = [self frame].size.width / 2;
         
-        [self addSubview:joyStickView];
+        CGSize joyStickSize = CGSizeMake(40, 40);
+        joyStickThumbView = [[BTCJoyStickThumbView alloc] initWithFrame:CGRectMake(joyStickOrigin.x - joyStickSize.width/2, joyStickOrigin.y - joyStickSize.height/2, joyStickSize.width, joyStickSize.height)];
+        
+        [self addSubview:joyStickThumbView];
     }
     return self;
 }
 
 - (void)layoutSubviews {
+    [super layoutSubviews];
     joyStickOrigin = CGPointMake([self frame].size.width / 2, [self frame].size.height / 2);
-    [joyStickView setCenter:CGPointMake([self frame].size.width / 2, [self frame].size.height / 2)];
+    [joyStickThumbView setCenter:CGPointMake([self frame].size.width / 2, [self frame].size.height / 2)];
 }
 
 #pragma mark - touches
@@ -63,10 +70,10 @@
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     UITouch *touch = [touches anyObject];
     CGPoint locationOfTouch = [touch locationInView:self];
-    locationOfTouch = [self convertPoint:locationOfTouch toView:joyStickView];
+    locationOfTouch = [self convertPoint:locationOfTouch toView:joyStickThumbView];
     
-    if ([joyStickView pointInside:locationOfTouch withEvent:nil]) {
-        selectedView = joyStickView;
+    if ([joyStickThumbView pointInside:locationOfTouch withEvent:nil]) {
+        selectedView = joyStickThumbView;
     }
 }
 
@@ -84,18 +91,18 @@
             
             float angelOfPoint = [self angleBetweenPoints:joyStickOrigin andSecond:locationOfTouch];
             
-            if ([self distanceBetweenPoint:locationOfTouch andPoint:joyStickOrigin] <= 75) {
-                [joyStickView setCenter:locationOfTouch];
-                distanceOfPoint = [self distanceBetweenPoint:joyStickOrigin andPoint:locationOfTouch]/75;
+            if ([self distanceBetweenPoint:locationOfTouch andPoint:joyStickOrigin] <= radiusDistance) {
+                [joyStickThumbView setCenter:locationOfTouch];
+                distanceOfPoint = [self distanceBetweenPoint:joyStickOrigin andPoint:locationOfTouch] / radiusDistance;
             }
             
-            else if ([self distanceBetweenPoint:locationOfTouch andPoint:joyStickOrigin] > 75) {
+            else if ([self distanceBetweenPoint:locationOfTouch andPoint:joyStickOrigin] > radiusDistance) {
                 distanceOfPoint = 1;
                 
-                CGFloat yValue = sinf(angelOfPoint + (M_PI * .5))*75;
-                CGFloat xValue = cosf(angelOfPoint + (M_PI * .5))*75;
+                CGFloat yValue = sinf(angelOfPoint) * radiusDistance;
+                CGFloat xValue = cosf(angelOfPoint) * radiusDistance;
                 
-                [joyStickView setCenter:CGPointMake(joyStickOrigin.x+yValue, joyStickOrigin.y-xValue)];
+                [joyStickThumbView setCenter:CGPointMake(joyStickOrigin.x+ xValue, joyStickOrigin.y - yValue)];
             }
             joyStickData.angle = angelOfPoint;
             joyStickData.distance = distanceOfPoint;
@@ -139,20 +146,20 @@
     CGFloat rads = 0;
     if (second.y <= first.y && second.x >= first.x) {
         //upper rightx
-        rads = atan(width/height);
-        rads += (M_PI*1.5);
-    } else if(second.y >= first.y &&second.x >= first.x) {
-        //bottom right
         rads = atan(height/width);
-    } else  if (second.y >= first.y && second.x <= first.x) {
-        //bottom left
-        rads = atan(width/height);
-        rads += (M_PI*.5);
     } else if (second.x <= first.x && second.y <= first.y) {
         //top left
+        rads = atan(width/height);
+        rads += (M_PI * .5);
+    } else  if (second.y >= first.y && second.x <= first.x) {
+        //bottom left
         rads = atan(height/width);
-        rads += M_PI;
-    }
+        rads += (M_PI);
+    } else if(second.y >= first.y &&second.x >= first.x) {
+        //bottom right
+        rads = atan(width/height);
+        rads += (M_PI * 1.5);
+    } 
     return rads;
 }
 
