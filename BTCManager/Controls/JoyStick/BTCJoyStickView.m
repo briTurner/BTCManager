@@ -60,6 +60,7 @@
 }
 
 - (void)layoutSubviews {
+    [super layoutSubviews];
     joyStickOrigin = CGPointMake([self frame].size.width / 2, [self frame].size.height / 2);
     [joyStickThumbView setCenter:CGPointMake([self frame].size.width / 2, [self frame].size.height / 2)];
 }
@@ -98,10 +99,10 @@
             else if ([self distanceBetweenPoint:locationOfTouch andPoint:joyStickOrigin] > radiusDistance) {
                 distanceOfPoint = 1;
                 
-                CGFloat yValue = sinf(angelOfPoint + (M_PI * .5)) * radiusDistance;
-                CGFloat xValue = cosf(angelOfPoint + (M_PI * .5)) * radiusDistance;
+                CGFloat yValue = sinf(angelOfPoint) * radiusDistance;
+                CGFloat xValue = cosf(angelOfPoint) * radiusDistance;
                 
-                [joyStickThumbView setCenter:CGPointMake(joyStickOrigin.x+yValue, joyStickOrigin.y-xValue)];
+                [joyStickThumbView setCenter:CGPointMake(joyStickOrigin.x+ xValue, joyStickOrigin.y - yValue)];
             }
             joyStickData.angle = angelOfPoint;
             joyStickData.distance = distanceOfPoint;
@@ -145,20 +146,20 @@
     CGFloat rads = 0;
     if (second.y <= first.y && second.x >= first.x) {
         //upper rightx
-        rads = atan(width/height);
-        rads += (M_PI*1.5);
-    } else if(second.y >= first.y &&second.x >= first.x) {
-        //bottom right
         rads = atan(height/width);
-    } else  if (second.y >= first.y && second.x <= first.x) {
-        //bottom left
-        rads = atan(width/height);
-        rads += (M_PI*.5);
     } else if (second.x <= first.x && second.y <= first.y) {
         //top left
+        rads = atan(width/height);
+        rads += (M_PI * .5);
+    } else  if (second.y >= first.y && second.x <= first.x) {
+        //bottom left
         rads = atan(height/width);
-        rads += M_PI;
-    }
+        rads += (M_PI);
+    } else if(second.y >= first.y &&second.x >= first.x) {
+        //bottom right
+        rads = atan(width/height);
+        rads += (M_PI * 1.5);
+    } 
     return rads;
 }
 
