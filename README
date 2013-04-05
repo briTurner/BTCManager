@@ -5,7 +5,9 @@ Purpose of this project:
     As of right now, the library supports:
         - multiple simultaneous controller connections
         - any number of joysticks per player
+            - joystick events are sent unreliably.  which means if there is an issue with the network, its possible the packet will be dropped
         - any number of buttons per player
+            - button presses will be sent reliably.  Which means they are garanteed to arrive
             - each button press sends a state which identifies when the button is pressed down, and then again when the button is released
         - sending of any arbitrary NSData object, which will be marked with an identifier in order to ensure to can be
             correctly identified and handled once the game receives it
